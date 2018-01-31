@@ -28,6 +28,8 @@
     var mapZoom = 11;
     var mapPosition = [49, 18];
 
+    var items = [{ label: 'text 1', value: 1 }, { label: 'text 2', value: 2 }]
+
     document.addEventListener('DOMContentLoaded', function () {
         map = L.map('map', { maxZoom: 14 }).setView(mapPosition, mapZoom);
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -35,10 +37,12 @@
         }).addTo(map)
 
         L.control.list({
-            position: 'topleft', id: 'image-selector', choices: ['hi', 'ho'], additionalClass: 'leaflet-control-layers-toggle', selected: 'hi', afterChange: function afterChange(newImage) {
-                console.log('new image', newImage)
-                state.image = newImage;
-                changeImage();
+            position: 'topleft',
+            id: 'image-selector',
+            items: items,
+            selectedDefault: 1,
+            afterChange: function (newValue) {
+                console.log('change')
             }
         }).addTo(map);
     })
