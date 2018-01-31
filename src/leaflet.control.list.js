@@ -1,55 +1,79 @@
 L.Control.List = L.Control.extend({
   state: {
-    menuOpen: false
+    open: false, // false || 'top' || {value}
+    selected: false // false || {value}
   },
   options: {
     position: 'topright',
-    icon: '',
+
+    icons: {
+      top: 'fa-home',
+      checked: 'fa-check-square-o',
+      unchecked: 'fa-square-o',
+      groupChecked: 'fa-caret-right',
+      groupUnchecked: 'fa-angle-right'
+    },
+
+    items: [], // {value: 'String', 'label': 'String', items?: [items]}
     id: '',
-    choices: [],
-    selected: false,
+    nothingSelectedText: 'nothing selected',
+    selectedDefault: false,
     additionalClass: '',
-    afterChange: function() {
-      return this.options.selected;
-    }
-  },
-  constructor: function() {
-    this.list = this;
-  },
-  _createRadio: function(value, selected) {
-    const line = L.DomUtil.create(
-      'p',
-      'leaflet-control-select-choise',
-      this.menu
-    );
 
-    if (selected) {
-      L.DomUtil.create(
-        'i',
-        'leaflet-control-select-choise-checker fa fa-check-square',
-        line
-      );
-    } else {
-      L.DomUtil.create(
-        'i',
-        'leaflet-control-select-choise-checker fa fa-square-o',
-        line
-      );
-    }
-    const lineLabel = L.DomUtil.create(
-      'span',
-      'leaflet-control-select-choise-label',
-      line
-    );
+    onOpen: false,
+    onGroupOpen: false,
+    onSelect: false,
+    onClose: false
+  },
 
-    lineLabel.innerHTML = value;
+  _isGroup: function(item) {
+    return false;
+  },
+
+  _isSelected: function(item) {
+    return false;
+  },
+
+  _isOpen: function(item) {
+    return false;
+  },
+
+  _renderRadioIcon(selected, contentDiv) {
+    const icons = this.options.icons;
+    L.DomUtil.create(
+      'i',
+      'fa ' + (selected ? icons.checked : icons.unchecked),
+      contentDiv
+    );
+  },
+
+  _renderGroupIcon(selected, contentDiv) {
+    const icons = this.options.icons;
+    L.DomUtil.create(
+      'i',
+      'fa ' + (selected ? icons.groupChecked : icons.groupUnchecked),
+      contentDiv
+    );
+  },
+
+  _renderItem: function(item) {
+    const selected = this._isSelected(item);
+
+    const p = L.DomUtil.create('p', '', this.menu);
+    const pContent = L.DomUtil.create('div', p);
+    const textSpan = L.DomUtil.create('span', '', pContent);
+    textSpan.innerHTML = item.label;
+
+    this._group
+      ? this._renderGroupIcon(item, pContent)
+      : this._renderRadioIcon(item, pContent);
 
     L.DomEvent.addListener(line, 'click', e => {
       this._changeSelected(value);
       this._openMenu();
     });
 
-    return line;
+    return p;
   },
 
   onAdd: function(map) {

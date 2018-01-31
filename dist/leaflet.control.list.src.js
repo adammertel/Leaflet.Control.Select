@@ -7,42 +7,72 @@
 
 L.Control.List = L.Control.extend({
   state: {
-    menuOpen: false
+    open: false, // false || 'top' || {value}
+    selected: false // false || {value}
   },
   options: {
     position: 'topright',
-    icon: '',
+
+    icons: {
+      top: 'fa-home',
+      checked: 'fa-check-square-o',
+      unchecked: 'fa-square-o',
+      groupChecked: 'fa-caret-right',
+      groupUnchecked: 'fa-angle-right'
+    },
+
+    items: [], // {value: 'String', 'label': 'String', items?: [items]}
     id: '',
-    choices: [],
-    selected: false,
+    nothingSelectedText: 'nothing selected',
+    selectedDefault: false,
     additionalClass: '',
-    afterChange: function afterChange() {
-      return this.options.selected;
-    }
+
+    onOpen: false,
+    onGroupOpen: false,
+    onSelect: false,
+    onClose: false
   },
-  constructor: function constructor() {
-    this.list = this;
+
+  _isGroup: function _isGroup(item) {
+    return false;
   },
-  _createRadio: function _createRadio(value, selected) {
+
+  _isSelected: function _isSelected(item) {
+    return false;
+  },
+
+  _isOpen: function _isOpen(item) {
+    return false;
+  },
+
+  _renderRadioIcon: function _renderRadioIcon(selected, contentDiv) {
+    var icons = this.options.icons;
+    L.DomUtil.create('i', 'fa ' + (selected ? icons.checked : icons.unchecked), contentDiv);
+  },
+  _renderGroupIcon: function _renderGroupIcon(selected, contentDiv) {
+    var icons = this.options.icons;
+    L.DomUtil.create('i', 'fa ' + (selected ? icons.groupChecked : icons.groupUnchecked), contentDiv);
+  },
+
+
+  _renderItem: function _renderItem(item) {
     var _this = this;
 
-    var line = L.DomUtil.create('p', 'leaflet-control-select-choise', this.menu);
+    var selected = this._isSelected(item);
 
-    if (selected) {
-      L.DomUtil.create('i', 'leaflet-control-select-choise-checker fa fa-check-square', line);
-    } else {
-      L.DomUtil.create('i', 'leaflet-control-select-choise-checker fa fa-square-o', line);
-    }
-    var lineLabel = L.DomUtil.create('span', 'leaflet-control-select-choise-label', line);
+    var p = L.DomUtil.create('p', '', this.menu);
+    var pContent = L.DomUtil.create('div', p);
+    var textSpan = L.DomUtil.create('span', '', pContent);
+    textSpan.innerHTML = item.label;
 
-    lineLabel.innerHTML = value;
+    this._group ? this._renderGroupIcon(item, pContent) : this._renderRadioIcon(item, pContent);
 
     L.DomEvent.addListener(line, 'click', function (e) {
       _this._changeSelected(value);
       _this._openMenu();
     });
 
-    return line;
+    return p;
   },
 
   onAdd: function onAdd(map) {
