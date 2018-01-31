@@ -5,7 +5,8 @@
       {
         "targets": {
           "browsers": ["last 5 versions"]
-        }
+        },
+        "parserOpts": { "sourceType": "script" }
       }
     ]
   ]
