@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" />
     <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <link rel="stylesheet" href="../dist/leaflt.control.list.css" />
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/leaflet.js"></script>
     <script src="../dist/leaflet.control.list.src.js"></script>
@@ -39,6 +40,7 @@
         L.control.list({
             position: 'topleft',
             id: 'image-selector',
+
             items: items,
             selectedDefault: 1,
             afterChange: function (newValue) {

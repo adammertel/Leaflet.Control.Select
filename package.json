@@ -28,13 +28,23 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "npm install -g sass run-s concat-cli babel",
+
     "banners": "run-s banner-js-src banner-js",
-    "banner-js-src": "concat-cli -f banner dist/leaflet.control.list.src.js -o dist/leaflet.control.list.src.js",
-    "banner-js": "concat-cli -f banner dist/leaflet.control.list.js -o dist/leaflet.control.list.js",
+    "banner-js-src":
+      "concat-cli -f banner dist/leaflet.control.list.src.js -o dist/leaflet.control.list.src.js",
+    "banner-js":
+      "concat-cli -f banner dist/leaflet.control.list.js -o dist/leaflet.control.list.js",
+
+    "sass":
+      "npm-sass src/leaflet.control.list.scss > dist/leaflet.control.list.css",
     "babel": "babel src --out-file dist/leaflet.control.list.src.js",
-    "minify": "babel --plugins transform-remove-console dist/leaflet.control.list.src.js --out-file dist/leaflet.control.list.js --minified",
-    "onchange": "onchange src/**/*.js -- npm run build",
-    "build": "run-s babel minify banners",
-    "start": "run-p onchange build"
+    "minify":
+      "babel --plugins transform-remove-console dist/leaflet.control.list.src.js --out-file dist/leaflet.control.list.js --minified",
+    "onchange-js": "onchange src/**/*.js -- npm run build",
+    "onchange-css": "onchange src/**/*.scss -- npm run sass",
+
+    "build": "run-s sass babel minify banners",
+    "start": "run-p onchange-css onchange-js build"
   }
 }
