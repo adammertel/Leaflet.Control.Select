@@ -1,3 +1,29 @@
-.leaflet-control-select .leaflet-control-button {
-  font-size: 23px;
+.leaflet-control-select {
+  .leaflet-control-button {
+    font-size: 23px;
+  }
+  .leaflet-control-select-menu {
+    position: absolute;
+    top: -3px;
+    left: -2px;
+    background-color: white;
+    padding: 5px;
+
+    p {
+      margin: 0.3rem;
+      cursor: pointer;
+      white-space: nowrap;
+
+      span,
+      i {
+        display: inline;
+      }
+
+      i {
+        position: relative;
+        top: 1px;
+        margin-left: 3px;
+      }
+    }
+  }
 }
