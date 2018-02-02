@@ -25,12 +25,22 @@ L.Control.Select = L.Control.extend({
   _emit: function(action, data) {
     const newState = {};
 
-    console.log(action);
     switch (action) {
-      case 'RADIO_CLICKED':
+      case 'RADIO_CLICK':
         newState['selected'] = data.item.value;
-      case 'GROUP_CLICKED':
+        break;
+
+      case 'GROUP_CLICK':
         newState['open'] = data.item.value;
+        break;
+
+      case 'MENU_OPEN':
+        newState['open'] = 'top';
+        break;
+
+      case 'MENU_CLOSE':
+        newState['open'] = false;
+        break;
     }
 
     this._setState(newState);
@@ -53,6 +63,14 @@ L.Control.Select = L.Control.extend({
       newState.open !== this.state.open
     ) {
       this.options.onGroupOpen(newState.open);
+    }
+
+    if (this.options.onOpen && newState.open === 'top') {
+      this.options.onOpen();
+    }
+
+    if (this.options.onClose && !newState.open) {
+      this.options.onClose();
     }
 
     this.state = Object.assign(this.state, newState);
@@ -79,24 +97,18 @@ L.Control.Select = L.Control.extend({
   },
 
   _hideMenu: function() {
-    this.state.open = false;
-    this.render();
-  },
-
-  _openMenu: function() {
-    this.state.open = true;
-    this.render();
+    this._emit('MENU_CLOSE', {});
   },
 
   _iconClicked: function() {
-    this._openMenu();
+    this._emit('MENU_OPEN', {});
   },
 
   _itemClicked: function(item) {
     if (!this._isSelected(item)) {
       this._isGroup(item)
-        ? this._emit('GROUP_CLICKED', { item: item })
-        : this._emit('RADIO_CLICKED', { item: item });
+        ? this._emit('GROUP_CLICK', { item: item })
+        : this._emit('RADIO_CLICK', { item: item });
     }
   },
 
@@ -155,8 +167,6 @@ L.Control.Select = L.Control.extend({
     this.options.items.map(item => {
       assignChildrens(item);
     });
-
-    console.log(this.options.items);
   },
 
   onAdd: function(map) {
@@ -218,12 +228,6 @@ L.Control.Select = L.Control.extend({
 
     if (this._isGroup(item)) {
       this._renderGroupIcon(selected, pContent);
-      console.log(
-        item.value,
-        this.state.open,
-        item.children,
-        this._isOpen(item)
-      );
       if (this._isOpen(item)) {
         this._renderMenu(p, item.items);
       }
