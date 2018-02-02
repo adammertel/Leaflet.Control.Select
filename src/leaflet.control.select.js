@@ -26,12 +26,17 @@ L.Control.Select = L.Control.extend({
     const newState = {};
 
     switch (action) {
-      case 'RADIO_CLICK':
+      case 'RADIO_SELECT':
         newState['selected'] = data.item.value;
+        newState['open'] = data.item.parent;
         break;
 
-      case 'GROUP_CLICK':
+      case 'GROUP_OPEN':
         newState['open'] = data.item.value;
+        break;
+
+      case 'GROUP_CLOSE':
+        newState['open'] = data.item.parent;
         break;
 
       case 'MENU_OPEN':
@@ -105,10 +110,14 @@ L.Control.Select = L.Control.extend({
   },
 
   _itemClicked: function(item) {
-    if (!this._isSelected(item)) {
-      this._isGroup(item)
-        ? this._emit('GROUP_CLICK', { item: item })
-        : this._emit('RADIO_CLICK', { item: item });
+    if (this._isGroup(item)) {
+      if (this.state.open === item.value) {
+        this._emit('GROUP_CLOSE', { item: item });
+      } else {
+        this._emit('GROUP_OPEN', { item: item });
+      }
+    } else {
+      this._emit('RADIO_SELECT', { item: item });
     }
   },
 
@@ -127,18 +136,18 @@ L.Control.Select = L.Control.extend({
     };
 
     // assigning parents to items
-    const assignParents = item => {
+    const assignParent = item => {
       if (this._isGroup(item)) {
         item.items.map(item2 => {
-          item2.parent =
-            'parent' in item ? item.parent.concat([item.value]) : [item.value];
-          assignParents(item2);
+          item2.parent = item.value;
+          assignParent(item2);
         });
       }
     };
 
     this.options.items.map(item => {
-      assignParents(item);
+      item.parent = 'top';
+      assignParent(item);
     });
 
     // assigning children to items
@@ -167,6 +176,8 @@ L.Control.Select = L.Control.extend({
     this.options.items.map(item => {
       assignChildrens(item);
     });
+
+    console.log(this.options.items);
   },
 
   onAdd: function(map) {
