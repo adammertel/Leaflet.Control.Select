@@ -1,5 +1,5 @@
 {
-  "name": "leaflet.control.list",
+  "name": "leaflet.control.select",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adammertel/Leaflet.Control.List.git"
+    "url": "git+https://github.com/adammertel/Leaflet.Control.Select.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/adammertel/Leaflet.Control.List/issues"
+    "url": "https://github.com/adammertel/Leaflet.Control.Select/issues"
   },
-  "homepage": "https://github.com/adammertel/Leaflet.Control.List#readme",
+  "homepage": "https://github.com/adammertel/Leaflet.Control.Select#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-remove-console": "^6.8.5",
@@ -32,15 +32,15 @@
 
     "banners": "run-s banner-js-src banner-js",
     "banner-js-src":
-      "concat-cli -f banner dist/leaflet.control.list.src.js -o dist/leaflet.control.list.src.js",
+      "concat-cli -f banner dist/leaflet.control.select.src.js -o dist/leaflet.control.select.src.js",
     "banner-js":
-      "concat-cli -f banner dist/leaflet.control.list.js -o dist/leaflet.control.list.js",
+      "concat-cli -f banner dist/leaflet.control.select.js -o dist/leaflet.control.select.js",
 
     "sass":
-      "npm-sass src/leaflet.control.list.scss > dist/leaflet.control.list.css",
-    "babel": "babel src --out-file dist/leaflet.control.list.src.js",
+      "npm-sass src/leaflet.control.select.scss > dist/leaflet.control.select.css",
+    "babel": "babel src --out-file dist/leaflet.control.select.src.js",
     "minify":
-      "babel --plugins transform-remove-console dist/leaflet.control.list.src.js --out-file dist/leaflet.control.list.js --minified",
+      "babel --plugins transform-remove-console dist/leaflet.control.select.src.js --out-file dist/leaflet.control.select.js --minified",
     "onchange-js": "onchange src/**/*.js -- npm run build",
     "onchange-css": "onchange src/**/*.scss -- npm run sass",
 
