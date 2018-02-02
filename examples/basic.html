@@ -17,6 +17,10 @@
         height: 100%;
         margin: 0
     }
+
+    .marker-icon.fa {
+        font-size: 40px
+    }
 </style>
 
 <body>
@@ -26,10 +30,17 @@
 
 <script>
     var map;
+    var marker;
     var mapZoom = 11;
     var mapPosition = [49, 18];
 
-    var items = [{ label: 'text 1', value: 1 }, { label: 'text 2', value: 2 }]
+    var items = [
+        { label: 'option 1', value: 'user-o' },
+        { label: 'option 2', value: 'bullhorn' },
+        { label: 'option 3', value: 'book' },
+        { label: 'option 4', value: 'car' },
+        { label: 'option 5', value: 'cog' }
+    ]
 
     document.addEventListener('DOMContentLoaded', function () {
         map = L.map('map', { maxZoom: 14 }).setView(mapPosition, mapZoom);
@@ -37,17 +48,25 @@
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(map)
 
-        L.control.list({
+        var defaultValue = items[0].value;
+
+        L.control.select({
             position: 'topleft',
             id: 'image-selector',
-
+            selectedDefault: defaultValue,
             items: items,
-            selectedDefault: 1,
-            afterChange: function (newValue) {
-                console.log('change')
+            onSelect: function (newIcon) {
+                drawMarker(newIcon)
             }
         }).addTo(map);
+
+        marker = L.marker([49, 18]).addTo(map)
+
+        drawMarker(defaultValue)
     })
+    var drawMarker = function (icon) {
+        marker.setIcon(L.divIcon({ className: 'marker-icon fa fa-' + icon, iconSize: [40, 40] }))
+    }
 </script>
 
 </html>

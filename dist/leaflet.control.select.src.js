@@ -5,7 +5,7 @@
 */
 'use strict';
 
-L.Control.List = L.Control.extend({
+L.Control.Select = L.Control.extend({
   state: {
     open: false, // false || 'top' || {value}
     selected: false // false || {value}
@@ -20,6 +20,7 @@ L.Control.List = L.Control.extend({
       groupChecked: 'fa-caret-right',
       groupUnchecked: 'fa-angle-right'
     },
+    multi: false,
 
     items: [], // {value: 'String', 'label': 'String', items?: [items]}
     id: '',
@@ -33,12 +34,31 @@ L.Control.List = L.Control.extend({
     onClose: false
   },
 
+  _emit: function _emit(action, data) {
+    var newState = {};
+    switch (action) {
+      case 'RADIO_CLICKED':
+        newState['selected'] = data.item.value;
+    }
+
+    this._setState(newState);
+    this.render();
+  },
+
+  _setState: function _setState(newState) {
+    // events
+    if (newState.selected !== this.state.selected) {
+      this.options.onSelect(newState.selected);
+    }
+    this.state = Object.assign(this.state, newState);
+  },
+
   _isGroup: function _isGroup(item) {
     return false;
   },
 
   _isSelected: function _isSelected(item) {
-    return false;
+    return this.state.selected === item.value;
   },
 
   _isOpen: function _isOpen(item) {
@@ -47,12 +67,12 @@ L.Control.List = L.Control.extend({
 
   _hideMenu: function _hideMenu() {
     this.state.open = false;
-    this._render();
+    this.render();
   },
 
   _openMenu: function _openMenu() {
     this.state.open = true;
-    this._render();
+    this.render();
   },
 
   _changeSelected: function _changeSelected(newValue) {
@@ -66,7 +86,7 @@ L.Control.List = L.Control.extend({
   },
 
   _itemClicked: function _itemClicked(item) {
-    console.log('item clicked', item);
+    this._emit('RADIO_CLICKED', { item: item });
   },
 
   onAdd: function onAdd(map) {
@@ -85,7 +105,7 @@ L.Control.List = L.Control.extend({
     L.DomEvent.disableClickPropagation(this.container);
     L.DomEvent.disableScrollPropagation(this.container);
 
-    this._render();
+    this.render();
     return this.container;
   },
 
@@ -109,7 +129,7 @@ L.Control.List = L.Control.extend({
     var textSpan = L.DomUtil.create('span', '', pContent);
     textSpan.innerHTML = item.label;
 
-    this._group ? this._renderGroupIcon(selected, pContent) : this._renderRadioIcon(selected, pContent);
+    this._isGroup(item) ? this._renderGroupIcon(this._isSelected(item), pContent) : this._renderRadioIcon(this._isSelected(item), pContent);
 
     L.DomEvent.addListener(p, 'click', function (e) {
       _this._itemClicked(item);
@@ -129,12 +149,12 @@ L.Control.List = L.Control.extend({
   },
 
 
-  _render: function _render() {
+  render: function render() {
     this.menu ? this.menu.remove() : false;
     this.state.open ? this._renderMenu() : false;
   }
 });
 
-L.control.list = function (options) {
-  return new L.Control.List(options);
+L.control.select = function (options) {
+  return new L.Control.Select(options);
 };
