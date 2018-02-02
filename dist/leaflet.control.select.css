@@ -1,20 +1,26 @@
 .leaflet-control-select .leaflet-control-button {
   font-size: 23px; }
 
-.leaflet-control-select .leaflet-control-select-menu {
+.leaflet-control-select .leaflet-control-select-menu:nth-of-type(1) {
   position: absolute;
   top: -3px;
-  left: -2px;
-  background-color: white;
-  padding: 5px; }
+  left: -2px; }
+
+.leaflet-control-select .leaflet-control-select-menu:nth-of-type(n + 2) {
+  margin-top: -7px;
+  margin-left: 15px;
+  position: absolute; }
+
+.leaflet-control-select .leaflet-control-select-menu {
+  background-color: white; }
   .leaflet-control-select .leaflet-control-select-menu p {
     margin: 0.3rem;
     cursor: pointer;
-    white-space: nowrap; }
+    white-space: nowrap;
+    display: -webkit-box; }
     .leaflet-control-select .leaflet-control-select-menu p span,
     .leaflet-control-select .leaflet-control-select-menu p i {
       display: inline; }
     .leaflet-control-select .leaflet-control-select-menu p i {
       position: relative;
-      top: 1px;
       margin-left: 3px; }

@@ -35,11 +35,27 @@
     var mapPosition = [49, 18];
 
     var items = [
-        { label: 'option 1', value: 'user-o' },
-        { label: 'option 2', value: 'bullhorn' },
-        { label: 'option 3', value: 'book' },
-        { label: 'option 4', value: 'car' },
-        { label: 'option 5', value: 'cog' }
+        {
+            label: 'group 1', value: 'g1', items: [
+                { label: 'option 1', value: 'g11' },
+                { label: 'option 2', value: 'g12' },
+                { label: 'option 3', value: 'g13' },
+                {
+                    label: 'group 3', value: 'g3', items: [
+                        { label: 'option 1', value: 'g31' },
+                        { label: 'option 2', value: 'g32' },
+                        { label: 'option 3', value: 'g33' },
+                    ]
+                },
+            ]
+        },
+        { label: 'option 5', value: 'car' },
+        {
+            label: 'group 2', value: 'g2', items: [
+                { label: 'option 6', value: 'g21' },
+                { label: 'option 7', value: 'g22' }
+            ]
+        }
     ]
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -55,9 +71,15 @@
             id: 'image-selector',
             selectedDefault: defaultValue,
             items: items,
-            iconChecked: 'fa-home',
+            icons: {
+                checked: 'fa-home'
+            },
             onSelect: function (newIcon) {
+                // console.log('on select')
                 drawMarker(newIcon)
+            },
+            onGroupOpen: function (groupOpened) {
+                // console.log(groupOpened)
             }
         }).addTo(map);
 

@@ -24,9 +24,13 @@ L.Control.Select = L.Control.extend({
 
   _emit: function(action, data) {
     const newState = {};
+
+    console.log(action);
     switch (action) {
       case 'RADIO_CLICKED':
         newState['selected'] = data.item.value;
+      case 'GROUP_CLICKED':
+        newState['open'] = data.item.value;
     }
 
     this._setState(newState);
@@ -35,22 +39,43 @@ L.Control.Select = L.Control.extend({
 
   _setState: function(newState) {
     // events
-    if (newState.selected !== this.state.selected) {
+    if (
+      this.options.onSelect &&
+      newState.selected &&
+      newState.selected !== this.state.selected
+    ) {
       this.options.onSelect(newState.selected);
     }
+
+    if (
+      this.options.onGroupOpen &&
+      newState.open &&
+      newState.open !== this.state.open
+    ) {
+      this.options.onGroupOpen(newState.open);
+    }
+
     this.state = Object.assign(this.state, newState);
   },
 
   _isGroup: function(item) {
-    return false;
+    return 'items' in item;
   },
 
   _isSelected: function(item) {
-    return this.state.selected === item.value;
+    const sel = this.state.selected;
+    if (sel) {
+      return this._isGroup(item)
+        ? 'children' in item && item.children.includes(sel)
+        : sel === item.value;
+    } else {
+      return false;
+    }
   },
 
   _isOpen: function(item) {
-    return false;
+    const open = this.state.open;
+    return open && (open === item.value || item.children.includes(open));
   },
 
   _hideMenu: function() {
@@ -63,35 +88,80 @@ L.Control.Select = L.Control.extend({
     this.render();
   },
 
-  _changeSelected: function(newValue) {
-    this.options.selected = newValue;
-    this._renderMenu();
-    this.options.afterChange(newValue);
-  },
-
   _iconClicked: function() {
     this._openMenu();
   },
 
   _itemClicked: function(item) {
-    this._emit('RADIO_CLICKED', { item: item });
+    if (!this._isSelected(item)) {
+      this._isGroup(item)
+        ? this._emit('GROUP_CLICKED', { item: item })
+        : this._emit('RADIO_CLICKED', { item: item });
+    }
   },
 
   initialize: function(options) {
+    this.menus = [];
+    const opts = this.options;
     if (this.multi) {
-      this.options.iconChecked = 'fa-check-square-o';
-      this.options.iconUnchecked = 'fa-square-o';
+      opts.iconChecked = 'fa-check-square-o';
+      opts.iconUnchecked = 'fa-square-o';
     }
 
     L.Util.setOptions(this, options);
     this.state = {
-      selected: this.options.selectedDefault, // false || {value}
+      selected: opts.selectedDefault, // false || {value}
       open: false // false || 'top' || {value}
     };
+
+    // assigning parents to items
+    const assignParents = item => {
+      if (this._isGroup(item)) {
+        item.items.map(item2 => {
+          item2.parent =
+            'parent' in item ? item.parent.concat([item.value]) : [item.value];
+          assignParents(item2);
+        });
+      }
+    };
+
+    this.options.items.map(item => {
+      assignParents(item);
+    });
+
+    // assigning children to items
+
+    const getChildren = item => {
+      let children = [];
+      if (this._isGroup(item)) {
+        item.items.map(item2 => {
+          children.push(item2.value);
+          children = children.concat(getChildren(item2));
+        });
+      }
+      return children;
+    };
+
+    const assignChildrens = item => {
+      item.children = getChildren(item);
+
+      if (this._isGroup(item)) {
+        item.items.map(item2 => {
+          assignChildrens(item2);
+        });
+      }
+    };
+
+    this.options.items.map(item => {
+      assignChildrens(item);
+    });
+
+    console.log(this.options.items);
   },
 
   onAdd: function(map) {
     this.map = map;
+    const opts = this.options;
 
     this.container = L.DomUtil.create(
       'div',
@@ -101,10 +171,7 @@ L.Control.Select = L.Control.extend({
 
     const icon = L.DomUtil.create(
       'a',
-      'leaflet-control-button fa ' +
-        this.options.iconMain +
-        ' ' +
-        this.options.additionalClass,
+      opts.iconMain + ' leaflet-control-button fa ',
       this.container
     );
 
@@ -140,40 +207,59 @@ L.Control.Select = L.Control.extend({
     );
   },
 
-  _renderItem: function(item) {
+  _renderItem: function(item, menu) {
     const selected = this._isSelected(item);
 
-    const p = L.DomUtil.create('p', '', this.menu);
+    const p = L.DomUtil.create('p', '', menu);
     const pContent = L.DomUtil.create('div', '', p);
     const textSpan = L.DomUtil.create('span', '', pContent);
+
     textSpan.innerHTML = item.label;
 
-    this._isGroup(item)
-      ? this._renderGroupIcon(this._isSelected(item), pContent)
-      : this._renderRadioIcon(this._isSelected(item), pContent);
+    if (this._isGroup(item)) {
+      this._renderGroupIcon(selected, pContent);
+      console.log(
+        item.value,
+        this.state.open,
+        item.children,
+        this._isOpen(item)
+      );
+      if (this._isOpen(item)) {
+        this._renderMenu(p, item.items);
+      }
+    } else {
+      this._renderRadioIcon(selected, pContent);
+    }
 
-    L.DomEvent.addListener(p, 'click', e => {
+    L.DomEvent.addListener(pContent, 'click', e => {
       this._itemClicked(item);
     });
 
     return p;
   },
 
-  _renderMenu() {
-    this.menu = L.DomUtil.create(
+  _renderMenu(parent, items) {
+    const menu = L.DomUtil.create(
       'div',
-      'leaflet-control-select-menu leaflet-bar',
-      this.container
+      'leaflet-control-select-menu leaflet-bar ',
+      parent
     );
-    this.options.items.map(item => {
-      this._renderItem(item);
+    this.menus.push(menu);
+    items.map(item => {
+      this._renderItem(item, menu);
     });
-    return false;
+  },
+
+  _clearMenus: function() {
+    this.menus.map(menu => menu.remove());
+    this.meus = [];
   },
 
   render: function() {
-    this.menu ? this.menu.remove() : false;
-    this.state.open ? this._renderMenu() : false;
+    this._clearMenus();
+    this.state.open
+      ? this._renderMenu(this.container, this.options.items)
+      : false;
   }
 });
 
