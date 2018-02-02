@@ -6,20 +6,15 @@
 'use strict';
 
 L.Control.Select = L.Control.extend({
-  state: {
-    open: false, // false || 'top' || {value}
-    selected: false // false || {value}
-  },
   options: {
     position: 'topright',
 
-    icons: {
-      top: 'fa-home',
-      checked: 'fa-check-square-o',
-      unchecked: 'fa-square-o',
-      groupChecked: 'fa-caret-right',
-      groupUnchecked: 'fa-angle-right'
-    },
+    iconMain: 'fa-home',
+    iconChecked: 'fa-circle',
+    iconUnchecked: 'fa-circle-o',
+    iconGroupChecked: 'fa-caret-right',
+    iconGroupUnchecked: 'fa-angle-right',
+
     multi: false,
 
     items: [], // {value: 'String', 'label': 'String', items?: [items]}
@@ -89,13 +84,26 @@ L.Control.Select = L.Control.extend({
     this._emit('RADIO_CLICKED', { item: item });
   },
 
+  initialize: function initialize(options) {
+    if (this.multi) {
+      this.options.iconChecked = 'fa-check-square-o';
+      this.options.iconUnchecked = 'fa-square-o';
+    }
+
+    L.Util.setOptions(this, options);
+    this.state = {
+      selected: this.options.selectedDefault, // false || {value}
+      open: false // false || 'top' || {value}
+    };
+  },
+
   onAdd: function onAdd(map) {
     this.map = map;
 
     this.container = L.DomUtil.create('div', 'leaflet-control leaflet-bar leaflet-control-select');
     this.container.setAttribute('id', this.options.id);
 
-    var icon = L.DomUtil.create('a', 'leaflet-control-button fa ' + this.options.icons.top + ' ' + this.options.additionalClass, this.container);
+    var icon = L.DomUtil.create('a', 'leaflet-control-button fa ' + this.options.iconMain + ' ' + this.options.additionalClass, this.container);
 
     map.on('click', this._hideMenu, this);
 
@@ -110,12 +118,10 @@ L.Control.Select = L.Control.extend({
   },
 
   _renderRadioIcon: function _renderRadioIcon(selected, contentDiv) {
-    var icons = this.options.icons;
-    L.DomUtil.create('i', 'fa ' + (selected ? icons.checked : icons.unchecked), contentDiv);
+    L.DomUtil.create('i', 'fa ' + (selected ? this.options.iconChecked : this.options.iconUnchecked), contentDiv);
   },
   _renderGroupIcon: function _renderGroupIcon(selected, contentDiv) {
-    var icons = this.options.icons;
-    L.DomUtil.create('i', 'fa ' + (selected ? icons.groupChecked : icons.groupUnchecked), contentDiv);
+    L.DomUtil.create('i', 'fa ' + (selected ? this.options.iconGroupChecked : this.options.iconGroupUnchecked), contentDiv);
   },
 
 

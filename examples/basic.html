@@ -55,6 +55,9 @@
             id: 'image-selector',
             selectedDefault: defaultValue,
             items: items,
+            icons: {
+                checked: 'fa-home'
+            },
             onSelect: function (newIcon) {
                 drawMarker(newIcon)
             }

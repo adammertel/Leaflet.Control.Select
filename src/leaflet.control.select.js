@@ -1,18 +1,13 @@
 L.Control.Select = L.Control.extend({
-  state: {
-    open: false, // false || 'top' || {value}
-    selected: false // false || {value}
-  },
   options: {
     position: 'topright',
 
-    icons: {
-      top: 'fa-home',
-      checked: 'fa-check-square-o',
-      unchecked: 'fa-square-o',
-      groupChecked: 'fa-caret-right',
-      groupUnchecked: 'fa-angle-right'
-    },
+    iconMain: 'fa-home',
+    iconChecked: 'fa-circle',
+    iconUnchecked: 'fa-circle-o',
+    iconGroupChecked: 'fa-caret-right',
+    iconGroupUnchecked: 'fa-angle-right',
+
     multi: false,
 
     items: [], // {value: 'String', 'label': 'String', items?: [items]}
@@ -82,6 +77,19 @@ L.Control.Select = L.Control.extend({
     this._emit('RADIO_CLICKED', { item: item });
   },
 
+  initialize: function(options) {
+    if (this.multi) {
+      this.options.iconChecked = 'fa-check-square-o';
+      this.options.iconUnchecked = 'fa-square-o';
+    }
+
+    L.Util.setOptions(this, options);
+    this.state = {
+      selected: this.options.selectedDefault, // false || {value}
+      open: false // false || 'top' || {value}
+    };
+  },
+
   onAdd: function(map) {
     this.map = map;
 
@@ -94,7 +102,7 @@ L.Control.Select = L.Control.extend({
     const icon = L.DomUtil.create(
       'a',
       'leaflet-control-button fa ' +
-        this.options.icons.top +
+        this.options.iconMain +
         ' ' +
         this.options.additionalClass,
       this.container
@@ -113,19 +121,21 @@ L.Control.Select = L.Control.extend({
   },
 
   _renderRadioIcon(selected, contentDiv) {
-    const icons = this.options.icons;
     L.DomUtil.create(
       'i',
-      'fa ' + (selected ? icons.checked : icons.unchecked),
+      'fa ' +
+        (selected ? this.options.iconChecked : this.options.iconUnchecked),
       contentDiv
     );
   },
 
   _renderGroupIcon(selected, contentDiv) {
-    const icons = this.options.icons;
     L.DomUtil.create(
       'i',
-      'fa ' + (selected ? icons.groupChecked : icons.groupUnchecked),
+      'fa ' +
+        (selected
+          ? this.options.iconGroupChecked
+          : this.options.iconGroupUnchecked),
       contentDiv
     );
   },
