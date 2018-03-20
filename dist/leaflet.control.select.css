@@ -18,6 +18,8 @@
     cursor: pointer;
     white-space: nowrap;
     display: -webkit-box; }
+    .leaflet-control-select .leaflet-control-select-menu p div {
+      display: flex; }
     .leaflet-control-select .leaflet-control-select-menu p span,
     .leaflet-control-select .leaflet-control-select-menu p i {
       display: inline; }

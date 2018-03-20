@@ -16,6 +16,7 @@ To create a menu-like component that can be implemented as a native leaflet cont
 ## How to use
 
 * download the dist folder (or build it by yourself)
+* include original leaflet library (js and css)
 * include leaflet.control.select.js and leaflet.control.select.css
 * include [font awesome](https://fontawesome.com/)
 

@@ -19,14 +19,13 @@ L.Control.Select = L.Control.extend({
 
     items: [], // {value: 'String', 'label': 'String', items?: [items]}
     id: '',
-    nothingSelectedText: 'nothing selected',
     selectedDefault: false,
     additionalClass: '',
 
-    onOpen: false,
-    onGroupOpen: false,
-    onSelect: false,
-    onClose: false
+    onOpen: function onOpen() {},
+    onClose: function onClose() {},
+    onGroupOpen: function onGroupOpen(itemGroup) {},
+    onSelect: function onSelect(item) {}
   },
 
   _emit: function _emit(action, data) {

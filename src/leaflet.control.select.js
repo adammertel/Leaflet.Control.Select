@@ -15,10 +15,10 @@ L.Control.Select = L.Control.extend({
     selectedDefault: false,
     additionalClass: '',
 
-    onOpen: false,
-    onGroupOpen: false,
-    onSelect: false,
-      : false
+    onOpen: function() {},
+    onClose: function() {},
+    onGroupOpen: function(itemGroup) {},
+    onSelect: function(item) {}
   },
 
   _emit: function(action, data) {

@@ -21,6 +21,10 @@
       white-space: nowrap;
       display: -webkit-box;
 
+      div {
+        display: flex;
+      }
+
       span,
       i {
         display: inline;
