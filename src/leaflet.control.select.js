@@ -230,8 +230,12 @@ L.Control.Select = L.Control.extend({
   _renderItem: function(item, menu) {
     const selected = this._isSelected(item);
 
-    const p = L.DomUtil.create('p', '', menu);
-    const pContent = L.DomUtil.create('div', '', p);
+    const p = L.DomUtil.create('div', 'leaflet-control-select-menu-line', menu);
+    const pContent = L.DomUtil.create(
+      'div',
+      'leaflet-control-select-menu-line-content',
+      p
+    );
     const textSpan = L.DomUtil.create('span', '', pContent);
 
     textSpan.innerHTML = item.label;

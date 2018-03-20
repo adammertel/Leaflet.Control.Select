@@ -2,6 +2,10 @@
   .leaflet-control-button {
     font-size: 23px;
   }
+  .leaflet-control-select-menu {
+    width: auto;
+  }
+
   .leaflet-control-select-menu:nth-of-type(1) {
     position: absolute;
     top: -3px;
@@ -9,20 +13,24 @@
   }
   .leaflet-control-select-menu:nth-of-type(n + 2) {
     margin-top: -7px;
-    margin-left: 15px;
+    margin-left: 25px;
     position: absolute;
   }
   .leaflet-control-select-menu {
     background-color: white;
 
-    p {
-      margin: 0.3rem;
+    .leaflet-control-select-menu-line {
+      padding: 5px;
+      padding-right: 20px;
+      padding-left: 10px;
+      margin: 0;
       cursor: pointer;
       white-space: nowrap;
       display: -webkit-box;
+      width: auto;
 
-      div {
-        display: flex;
+      .leaflet-control-select-menu-line-content {
+        width: 100%;
       }
 
       span,
@@ -31,8 +39,11 @@
       }
 
       i {
-        position: relative;
-        margin-left: 3px;
+        position: absolute;
+        right: 6px;
+        margin-top: 3px;
+        width: 10px;
+        text-align: center;
       }
     }
   }
