@@ -12,14 +12,13 @@ L.Control.Select = L.Control.extend({
 
     items: [], // {value: 'String', 'label': 'String', items?: [items]}
     id: '',
-    nothingSelectedText: 'nothing selected',
     selectedDefault: false,
     additionalClass: '',
 
     onOpen: false,
     onGroupOpen: false,
     onSelect: false,
-    onClose: false
+      : false
   },
 
   _emit: function(action, data) {
