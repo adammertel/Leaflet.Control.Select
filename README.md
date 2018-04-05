@@ -17,7 +17,7 @@ To create a menu-like component that can be implemented as a native leaflet cont
 
 * download the dist folder (or build it by yourself)
 * include original leaflet library (js and css)
-* include leaflet.control.select.js and leaflet.control.select.css
+* include leaflet.control.select.js and leaflet.control.select.css from dist folder
 * include [font awesome](https://fontawesome.com/)
 
 ## How to develop
@@ -81,7 +81,7 @@ nested example:
 
 ##### **selectedDefault** (default false)
 
-put {value} of item or [{value},..] of more items (multi is true) to make the items selected defaultly
+put {value} of item or [{value},..] of more items (multi is true !) to make the items selected defaultly
 
 ##### **id** (default '')
 
