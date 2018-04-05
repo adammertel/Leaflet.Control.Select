@@ -25,8 +25,19 @@ L.Control.Select = L.Control.extend({
     const newState = {};
 
     switch (action) {
-      case 'RADIO_SELECT':
-        newState['selected'] = data.item.value;
+      case 'ITEM_SELECT':
+        if (this.options.multi) {
+          newState['selected'] = this.state.selected;
+          if (this.state.selected.includes(data.item.value)) {
+            newState['selected'] = newState['selected'].filter(
+              s => s !== data.item.value
+            );
+          } else {
+            newState['selected'].push(data.item.value);
+          }
+        } else {
+          newState['selected'] = data.item.value;
+        }
         newState['open'] = data.item.parent;
         break;
 
@@ -87,8 +98,17 @@ L.Control.Select = L.Control.extend({
   _isSelected: function(item) {
     const sel = this.state.selected;
     if (sel) {
-      return this._isGroup(item)
-        ? 'children' in item && item.children.includes(sel)
+      if (this._isGroup(item)) {
+        if ('children' in item) {
+          return this.options.multi
+            ? sel.find(s => item.children.includes(s))
+            : item.children.includes(sel);
+        } else {
+          return false;
+        }
+      }
+      return this.options.multi
+        ? sel.indexOf(item.value) > -1
         : sel === item.value;
     } else {
       return false;
@@ -109,6 +129,7 @@ L.Control.Select = L.Control.extend({
   },
 
   _itemClicked: function(item) {
+    console.log('item clicked');
     if (this._isGroup(item)) {
       if (this.state.open === item.value) {
         this._emit('GROUP_CLOSE', { item: item });
@@ -116,21 +137,27 @@ L.Control.Select = L.Control.extend({
         this._emit('GROUP_OPEN', { item: item });
       }
     } else {
-      this._emit('RADIO_SELECT', { item: item });
+      this._emit('ITEM_SELECT', { item: item });
     }
   },
 
   initialize: function(options) {
     this.menus = [];
+    L.Util.setOptions(this, options);
     const opts = this.options;
-    if (this.multi) {
+
+    if (opts.multi) {
       opts.iconChecked = 'fa-check-square-o';
       opts.iconUnchecked = 'fa-square-o';
     }
 
-    L.Util.setOptions(this, options);
+    if (opts.multi) {
+      opts.selectedDefault =
+        opts.selectedDefault instanceof Array ? opts.selectedDefault : [];
+    }
+
     this.state = {
-      selected: opts.selectedDefault, // false || {value}
+      selected: opts.selectedDefault, // false || {value}multi
       open: false // false || 'top' || {value}
     };
 
@@ -150,7 +177,6 @@ L.Control.Select = L.Control.extend({
     });
 
     // assigning children to items
-
     const getChildren = item => {
       let children = [];
       if (this._isGroup(item)) {
@@ -175,8 +201,6 @@ L.Control.Select = L.Control.extend({
     this.options.items.map(item => {
       assignChildrens(item);
     });
-
-    console.log(this.options.items);
   },
 
   onAdd: function(map) {
