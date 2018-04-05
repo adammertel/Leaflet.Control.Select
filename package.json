@@ -20,11 +20,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "preinstall": "npm install -g sass run-s concat-cli babel",
     "banners": "run-s banner-js-src banner-js",
-    "banner-js-src": "concat-cli -f banner dist/leaflet.control.select.src.js -o dist/leaflet.control.select.src.js",
-    "banner-js": "concat-cli -f banner dist/leaflet.control.select.js -o dist/leaflet.control.select.js",
-    "sass": "npm-sass src/leaflet.control.select.scss > dist/leaflet.control.select.css",
+    "banner-js-src":
+      "concat-cli -f banner dist/leaflet.control.select.src.js -o dist/leaflet.control.select.src.js",
+    "banner-js":
+      "concat-cli -f banner dist/leaflet.control.select.js -o dist/leaflet.control.select.js",
+    "sass":
+      "npm-sass src/leaflet.control.select.scss > dist/leaflet.control.select.css",
     "babel": "babel src --out-file dist/leaflet.control.select.src.js",
-    "minify": "babel --plugins transform-remove-console dist/leaflet.control.select.src.js --out-file dist/leaflet.control.select.js --minified",
+    "minify":
+      "babel --plugins=transform-remove-console,minify-mangle-names dist/leaflet.control.select.src.js --out-file dist/leaflet.control.select.js --minified",
     "onchange-js": "onchange src/**/*.js -- npm run build",
     "onchange-css": "onchange src/**/*.scss -- npm run sass",
     "build": "run-s sass babel minify banners",
@@ -32,6 +36,7 @@
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-minify-mangle-names": "^0.3.0",
     "babel-plugin-transform-remove-console": "^6.9.0",
     "babel-preset-env": "^1.6.1",
     "concat-cli": "^4.0.0",
