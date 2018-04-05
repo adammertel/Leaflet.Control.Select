@@ -185,7 +185,7 @@ L.Control.Select = L.Control.extend({
     this.container = L.DomUtil.create('div', 'leaflet-control leaflet-bar leaflet-control-select');
     this.container.setAttribute('id', this.options.id);
 
-    var icon = L.DomUtil.create('a', opts.iconMain + ' leaflet-control-button fa ', this.container);
+    var icon = L.DomUtil.create('a', opts.iconMain + ' leaflet-control-button ', this.container);
 
     map.on('click', this._hideMenu, this);
 

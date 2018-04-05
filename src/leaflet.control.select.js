@@ -191,7 +191,7 @@ L.Control.Select = L.Control.extend({
 
     const icon = L.DomUtil.create(
       'a',
-      opts.iconMain + ' leaflet-control-button fa ',
+      opts.iconMain + ' leaflet-control-button ',
       this.container
     );
 
