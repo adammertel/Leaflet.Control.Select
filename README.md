@@ -1,6 +1,7 @@
 # Leaflet.Control.Select
 
 Plugin for [Leaflet](leaflet.com) library that adds a new control class.
+
 ![image](./img.png)
 
 ## Motivation
@@ -9,9 +10,11 @@ To create a menu-like component that can be implemented as a native leaflet cont
 
 ## Demo
 
-[basic example](https://adammertel.github.io/Leaflet.Control.Select/demo/basic.html)
-[groups example](https://adammertel.github.io/Leaflet.Control.Select/demo/groups.html)
-[multiple example](https://adammertel.github.io/Leaflet.Control.Select/demo/multiple.html)
+[basic](https://adammertel.github.io/Leaflet.Control.Select/demo/basic.html)
+
+[groups](https://adammertel.github.io/Leaflet.Control.Select/demo/groups.html)
+
+[multiple](https://adammertel.github.io/Leaflet.Control.Select/demo/multiple.html)
 
 ## How to use
 
@@ -27,7 +30,7 @@ To create a menu-like component that can be implemented as a native leaflet cont
 
 ## Options
 
-##### **items** (default [])
+#### **items** (default [])
 
 the content of menu, a collection of objects with **label** and **value** keys
 
@@ -75,61 +78,61 @@ nested example:
 ];
 ```
 
-##### **multi** (default false)
+#### **multi** (default false)
 
 **true** if it is possible to choose more items at the same time (radio / checkbox mode)
 
-##### **selectedDefault** (default false)
+#### **selectedDefault** (default false)
 
 put {value} of item or [{value},..] of more items (multi is true !) to make the items selected defaultly
 
-##### **id** (default '')
+#### **id** (default '')
 
 id of the wrapper div element
 
-##### **additionalClass** (default '')
+#### **additionalClass** (default '')
 
 additional class of the wrapper div element
 
-##### **iconMain** (default 'fa-home')
+#### **iconMain** (default 'fa-home')
 
 icon for the control button
 
-##### **iconChecked** (default 'fa-circle')
+#### **iconChecked** (default 'fa-circle')
 
 icon for checked item
 
-##### **iconUnchecked** (default 'fa-circle-o')
+#### **iconUnchecked** (default 'fa-circle-o')
 
 icon for unchecked item
 
-##### **iconGroupChecked** (default 'fa-caret-right')
+#### **iconGroupChecked** (default 'fa-caret-right')
 
 icon for checked group (a group with a checked item)
 
-##### **iconGroupUnchecked** (default 'fa-angle-right')
+#### **iconGroupUnchecked** (default 'fa-angle-right')
 
 icon for unchecked group (a group without a checked item)
 
-##### **onOpen()** (default function(){})
+#### **onOpen()** (default function(){})
 
 function emmited after the menu is open
 
-##### **onClose()** (default function(){})
+#### **onClose()** (default function(){})
 
 function emmited after the menu is closed
 
-##### **onSelect(item)** (default function(item){})
+#### **onSelect(item)** (default function(item){})
 
 function emmited after an item is selected
 
-##### **onGroupOpen(group item)** (default function(item){})
+#### **onGroupOpen(group item)** (default function(item){})
 
 function emmited after the group is clicked, returns the group item
 
 ## Methods
 
-##### **close**
+#### **close**
 
 closes the menu
 
