@@ -128,3 +128,9 @@ function emmited after an item is selected
 function emmited after the group is clicked, returns the group item
 
 ## Methods
+
+##### **close**
+
+closes the menu
+
+_other methods will be added later_

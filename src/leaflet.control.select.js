@@ -304,6 +304,11 @@ L.Control.Select = L.Control.extend({
     this.state.open
       ? this._renderMenu(this.container, this.options.items)
       : false;
+  },
+
+  /* public methods */
+  close: function() {
+    this._hideMenu();
   }
 });
 
