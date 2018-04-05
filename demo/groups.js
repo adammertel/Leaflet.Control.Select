@@ -65,7 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
       items: places,
       iconMain: 'fa fa-building',
       onSelect: function(newPosition) {
-        console.log('on select');
         drawMarker(newPosition[0], newPosition[1]);
       },
       onGroupOpen: function(groupOpened) {

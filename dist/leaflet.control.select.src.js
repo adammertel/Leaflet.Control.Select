@@ -34,7 +34,8 @@ L.Control.Select = L.Control.extend({
     switch (action) {
       case 'ITEM_SELECT':
         if (this.options.multi) {
-          newState['selected'] = this.state.selected;
+          newState['selected'] = this.state.selected.slice();
+
           if (this.state.selected.includes(data.item.value)) {
             newState['selected'] = newState['selected'].filter(function (s) {
               return s !== data.item.value;
@@ -71,7 +72,7 @@ L.Control.Select = L.Control.extend({
 
   _setState: function _setState(newState) {
     // events
-    if (this.options.onSelect && newState.selected && newState.selected !== this.state.selected) {
+    if (this.options.onSelect && newState.selected && (this.options.multi && newState.selected.length !== this.state.selected.length || !this.options.multi && newState.selected !== this.state.selected)) {
       this.options.onSelect(newState.selected);
     }
 
@@ -126,7 +127,6 @@ L.Control.Select = L.Control.extend({
   },
 
   _itemClicked: function _itemClicked(item) {
-    console.log('item clicked');
     if (this._isGroup(item)) {
       if (this.state.open === item.value) {
         this._emit('GROUP_CLOSE', { item: item });
