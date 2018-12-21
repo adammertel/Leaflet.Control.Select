@@ -1,6 +1,6 @@
 {
   "name": "leaflet.control.select",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "directories": {
@@ -37,6 +37,7 @@
     "babel-preset-env": "^1.7.0",
     "concat-cli": "^4.0.0",
     "npm-run-all": "^4.1.5",
+    "npm-sass": "^2.3.0",
     "onchange": "^3.3.0"
   }
 }
