@@ -2,11 +2,11 @@ L.Control.Select = L.Control.extend({
   options: {
     position: "topright",
 
-    iconMain: "fa-home",
-    iconChecked: "fa-circle",
-    iconUnchecked: "fa-circle-o",
-    iconGroupChecked: "fa-caret-right",
-    iconGroupUnchecked: "fa-angle-right",
+    iconMain: "≡",
+    iconChecked: "☑",
+    iconUnchecked: "❒",
+    iconGroupChecked: "▼",
+    iconGroupUnchecked: " ▶",
 
     multi: false,
 
@@ -149,11 +149,6 @@ L.Control.Select = L.Control.extend({
     const opts = this.options;
 
     if (opts.multi) {
-      opts.iconChecked = "fa-check-square-o";
-      opts.iconUnchecked = "fa-square-o";
-    }
-
-    if (opts.multi) {
       opts.selectedDefault =
         opts.selectedDefault instanceof Array ? opts.selectedDefault : [];
     }
@@ -217,9 +212,10 @@ L.Control.Select = L.Control.extend({
 
     const icon = L.DomUtil.create(
       "a",
-      opts.iconMain + " leaflet-control-button ",
+      "leaflet-control-button ",
       this.container
     );
+    icon.innerHTML = this.options.iconMain;
 
     map.on("click", this._hideMenu, this);
 
@@ -234,23 +230,17 @@ L.Control.Select = L.Control.extend({
   },
 
   _renderRadioIcon(selected, contentDiv) {
-    L.DomUtil.create(
-      "i",
-      "fa " +
-        (selected ? this.options.iconChecked : this.options.iconUnchecked),
-      contentDiv
-    );
+    const radio = L.DomUtil.create("span", "radio", contentDiv);
+    radio.innerHTML = selected
+      ? this.options.iconChecked
+      : this.options.iconUnchecked;
   },
 
   _renderGroupIcon(selected, contentDiv) {
-    L.DomUtil.create(
-      "i",
-      "fa " +
-        (selected
-          ? this.options.iconGroupChecked
-          : this.options.iconGroupUnchecked),
-      contentDiv
-    );
+    const group = L.DomUtil.create("span", "group", contentDiv);
+    group.innerHTML = selected
+      ? this.options.iconGroupChecked
+      : this.options.iconGroupUnchecked;
   },
 
   _renderItem: function(item, menu) {
