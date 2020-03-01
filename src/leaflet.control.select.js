@@ -1,19 +1,19 @@
 L.Control.Select = L.Control.extend({
   options: {
-    position: 'topright',
+    position: "topright",
 
-    iconMain: 'fa-home',
-    iconChecked: 'fa-circle',
-    iconUnchecked: 'fa-circle-o',
-    iconGroupChecked: 'fa-caret-right',
-    iconGroupUnchecked: 'fa-angle-right',
+    iconMain: "fa-home",
+    iconChecked: "fa-circle",
+    iconUnchecked: "fa-circle-o",
+    iconGroupChecked: "fa-caret-right",
+    iconGroupUnchecked: "fa-angle-right",
 
     multi: false,
 
     items: [], // {value: 'String', 'label': 'String', items?: [items]}
-    id: '',
+    id: "",
     selectedDefault: false,
-    additionalClass: '',
+    additionalClass: "",
 
     onOpen: function() {},
     onClose: function() {},
@@ -25,37 +25,37 @@ L.Control.Select = L.Control.extend({
     const newState = {};
 
     switch (action) {
-      case 'ITEM_SELECT':
+      case "ITEM_SELECT":
         if (this.options.multi) {
-          newState['selected'] = this.state.selected.slice();
+          newState.selected = this.state.selected.slice();
 
           if (this.state.selected.includes(data.item.value)) {
-            newState['selected'] = newState['selected'].filter(
+            newState.selected = newState.selected.filter(
               s => s !== data.item.value
             );
           } else {
-            newState['selected'].push(data.item.value);
+            newState.selected.push(data.item.value);
           }
         } else {
-          newState['selected'] = data.item.value;
+          newState.selected = data.item.value;
         }
-        newState['open'] = data.item.parent;
+        newState.open = data.item.parent;
         break;
 
-      case 'GROUP_OPEN':
-        newState['open'] = data.item.value;
+      case "GROUP_OPEN":
+        newState.open = data.item.value;
         break;
 
-      case 'GROUP_CLOSE':
-        newState['open'] = data.item.parent;
+      case "GROUP_CLOSE":
+        newState.open = data.item.parent;
         break;
 
-      case 'MENU_OPEN':
-        newState['open'] = 'top';
+      case "MENU_OPEN":
+        newState.open = "top";
         break;
 
-      case 'MENU_CLOSE':
-        newState['open'] = false;
+      case "MENU_CLOSE":
+        newState.open = false;
         break;
     }
 
@@ -83,7 +83,7 @@ L.Control.Select = L.Control.extend({
       this.options.onGroupOpen(newState.open);
     }
 
-    if (this.options.onOpen && newState.open === 'top') {
+    if (this.options.onOpen && newState.open === "top") {
       this.options.onOpen();
     }
 
@@ -95,14 +95,14 @@ L.Control.Select = L.Control.extend({
   },
 
   _isGroup: function(item) {
-    return 'items' in item;
+    return "items" in item;
   },
 
   _isSelected: function(item) {
     const sel = this.state.selected;
     if (sel) {
       if (this._isGroup(item)) {
-        if ('children' in item) {
+        if ("children" in item) {
           return this.options.multi
             ? sel.find(s => item.children.includes(s))
             : item.children.includes(sel);
@@ -124,22 +124,22 @@ L.Control.Select = L.Control.extend({
   },
 
   _hideMenu: function() {
-    this._emit('MENU_CLOSE', {});
+    this._emit("MENU_CLOSE", {});
   },
 
   _iconClicked: function() {
-    this._emit('MENU_OPEN', {});
+    this._emit("MENU_OPEN", {});
   },
 
   _itemClicked: function(item) {
     if (this._isGroup(item)) {
       if (this.state.open === item.value) {
-        this._emit('GROUP_CLOSE', { item: item });
+        this._emit("GROUP_CLOSE", { item: item });
       } else {
-        this._emit('GROUP_OPEN', { item: item });
+        this._emit("GROUP_OPEN", { item: item });
       }
     } else {
-      this._emit('ITEM_SELECT', { item: item });
+      this._emit("ITEM_SELECT", { item: item });
     }
   },
 
@@ -149,8 +149,8 @@ L.Control.Select = L.Control.extend({
     const opts = this.options;
 
     if (opts.multi) {
-      opts.iconChecked = 'fa-check-square-o';
-      opts.iconUnchecked = 'fa-square-o';
+      opts.iconChecked = "fa-check-square-o";
+      opts.iconUnchecked = "fa-square-o";
     }
 
     if (opts.multi) {
@@ -174,7 +174,7 @@ L.Control.Select = L.Control.extend({
     };
 
     this.options.items.map(item => {
-      item.parent = 'top';
+      item.parent = "top";
       assignParent(item);
     });
 
@@ -210,21 +210,21 @@ L.Control.Select = L.Control.extend({
     const opts = this.options;
 
     this.container = L.DomUtil.create(
-      'div',
-      'leaflet-control leaflet-bar leaflet-control-select'
+      "div",
+      "leaflet-control leaflet-bar leaflet-control-select"
     );
-    this.container.setAttribute('id', this.options.id);
+    this.container.setAttribute("id", this.options.id);
 
     const icon = L.DomUtil.create(
-      'a',
-      opts.iconMain + ' leaflet-control-button ',
+      "a",
+      opts.iconMain + " leaflet-control-button ",
       this.container
     );
 
-    map.on('click', this._hideMenu, this);
+    map.on("click", this._hideMenu, this);
 
-    L.DomEvent.on(icon, 'click', L.DomEvent.stop);
-    L.DomEvent.on(icon, 'click', this._iconClicked, this);
+    L.DomEvent.on(icon, "click", L.DomEvent.stop);
+    L.DomEvent.on(icon, "click", this._iconClicked, this);
 
     L.DomEvent.disableClickPropagation(this.container);
     L.DomEvent.disableScrollPropagation(this.container);
@@ -235,8 +235,8 @@ L.Control.Select = L.Control.extend({
 
   _renderRadioIcon(selected, contentDiv) {
     L.DomUtil.create(
-      'i',
-      'fa ' +
+      "i",
+      "fa " +
         (selected ? this.options.iconChecked : this.options.iconUnchecked),
       contentDiv
     );
@@ -244,8 +244,8 @@ L.Control.Select = L.Control.extend({
 
   _renderGroupIcon(selected, contentDiv) {
     L.DomUtil.create(
-      'i',
-      'fa ' +
+      "i",
+      "fa " +
         (selected
           ? this.options.iconGroupChecked
           : this.options.iconGroupUnchecked),
@@ -256,13 +256,13 @@ L.Control.Select = L.Control.extend({
   _renderItem: function(item, menu) {
     const selected = this._isSelected(item);
 
-    const p = L.DomUtil.create('div', 'leaflet-control-select-menu-line', menu);
+    const p = L.DomUtil.create("div", "leaflet-control-select-menu-line", menu);
     const pContent = L.DomUtil.create(
-      'div',
-      'leaflet-control-select-menu-line-content',
+      "div",
+      "leaflet-control-select-menu-line-content",
       p
     );
-    const textSpan = L.DomUtil.create('span', '', pContent);
+    const textSpan = L.DomUtil.create("span", "", pContent);
 
     textSpan.innerHTML = item.label;
 
@@ -275,7 +275,7 @@ L.Control.Select = L.Control.extend({
       this._renderRadioIcon(selected, pContent);
     }
 
-    L.DomEvent.addListener(pContent, 'click', e => {
+    L.DomEvent.addListener(pContent, "click", e => {
       this._itemClicked(item);
     });
 
@@ -284,8 +284,8 @@ L.Control.Select = L.Control.extend({
 
   _renderMenu(parent, items) {
     const menu = L.DomUtil.create(
-      'div',
-      'leaflet-control-select-menu leaflet-bar ',
+      "div",
+      "leaflet-control-select-menu leaflet-bar ",
       parent
     );
     this.menus.push(menu);
