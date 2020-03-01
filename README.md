@@ -18,15 +18,15 @@ To create a menu-like component that can be implemented as a native leaflet cont
 
 ## How to use
 
-* download the dist folder (or build it by yourself)
-* include original leaflet library (js and css)
-* include leaflet.control.select.js and leaflet.control.select.css from dist folder
-* include [font awesome](https://fontawesome.com/)
+- download the dist folder (or build it by yourself)
+- include original leaflet library (js and css)
+- include leaflet.control.select.js and leaflet.control.select.css from dist folder
+- include [font awesome](https://fontawesome.com/)
 
 ## How to develop
 
-* npm install --save-dev
-* npm start / npm run build
+- npm install
+- npm start / npm run build
 
 ## Options
 
@@ -49,30 +49,30 @@ nested example:
 ```js
 [
   {
-    label: 'group 1',
-    value: 'g1',
+    label: "group 1",
+    value: "g1",
     items: [
-      { label: 'option 1', value: 'g11' },
-      { label: 'option 2', value: 'g12' },
-      { label: 'option 3', value: 'g13' },
+      { label: "option 1", value: "g11" },
+      { label: "option 2", value: "g12" },
+      { label: "option 3", value: "g13" },
       {
-        label: 'group 3',
-        value: 'g3',
+        label: "group 3",
+        value: "g3",
         items: [
-          { label: 'option 1', value: 'g131' },
-          { label: 'option 2', value: 'g132' },
-          { label: 'option 3', value: 'g133' }
+          { label: "option 1", value: "g131" },
+          { label: "option 2", value: "g132" },
+          { label: "option 3", value: "g133" }
         ]
       }
     ]
   },
-  { label: 'option 5', value: 'g5' },
+  { label: "option 5", value: "g5" },
   {
-    label: 'group 2',
-    value: 'g2',
+    label: "group 2",
+    value: "g2",
     items: [
-      { label: 'option 6', value: 'g21' },
-      { label: 'option 7', value: 'g22' }
+      { label: "option 6", value: "g21" },
+      { label: "option 7", value: "g22" }
     ]
   }
 ];

@@ -3,31 +3,27 @@
   https://github.com/adammertel/Leaflet.Control.List
   Adam Mertel | univie
 */
-'use strict';
+"use strict";
 
 L.Control.Select = L.Control.extend({
   options: {
     position: 'topright',
-
     iconMain: 'fa-home',
     iconChecked: 'fa-circle',
     iconUnchecked: 'fa-circle-o',
     iconGroupChecked: 'fa-caret-right',
     iconGroupUnchecked: 'fa-angle-right',
-
     multi: false,
-
-    items: [], // {value: 'String', 'label': 'String', items?: [items]}
+    items: [],
+    // {value: 'String', 'label': 'String', items?: [items]}
     id: '',
     selectedDefault: false,
     additionalClass: '',
-
     onOpen: function onOpen() {},
     onClose: function onClose() {},
     onGroupOpen: function onGroupOpen(itemGroup) {},
     onSelect: function onSelect(item) {}
   },
-
   _emit: function _emit(action, data) {
     var newState = {};
 
@@ -46,6 +42,7 @@ L.Control.Select = L.Control.extend({
         } else {
           newState['selected'] = data.item.value;
         }
+
         newState['open'] = data.item.parent;
         break;
 
@@ -67,9 +64,9 @@ L.Control.Select = L.Control.extend({
     }
 
     this._setState(newState);
+
     this.render();
   },
-
   _setState: function _setState(newState) {
     // events
     if (this.options.onSelect && newState.selected && (this.options.multi && newState.selected.length !== this.state.selected.length || !this.options.multi && newState.selected !== this.state.selected)) {
@@ -90,13 +87,12 @@ L.Control.Select = L.Control.extend({
 
     this.state = Object.assign(this.state, newState);
   },
-
   _isGroup: function _isGroup(item) {
     return 'items' in item;
   },
-
   _isSelected: function _isSelected(item) {
     var sel = this.state.selected;
+
     if (sel) {
       if (this._isGroup(item)) {
         if ('children' in item) {
@@ -107,37 +103,39 @@ L.Control.Select = L.Control.extend({
           return false;
         }
       }
+
       return this.options.multi ? sel.indexOf(item.value) > -1 : sel === item.value;
     } else {
       return false;
     }
   },
-
   _isOpen: function _isOpen(item) {
     var open = this.state.open;
     return open && (open === item.value || item.children.includes(open));
   },
-
   _hideMenu: function _hideMenu() {
     this._emit('MENU_CLOSE', {});
   },
-
   _iconClicked: function _iconClicked() {
     this._emit('MENU_OPEN', {});
   },
-
   _itemClicked: function _itemClicked(item) {
     if (this._isGroup(item)) {
       if (this.state.open === item.value) {
-        this._emit('GROUP_CLOSE', { item: item });
+        this._emit('GROUP_CLOSE', {
+          item: item
+        });
       } else {
-        this._emit('GROUP_OPEN', { item: item });
+        this._emit('GROUP_OPEN', {
+          item: item
+        });
       }
     } else {
-      this._emit('ITEM_SELECT', { item: item });
+      this._emit('ITEM_SELECT', {
+        item: item
+      });
     }
   },
-
   initialize: function initialize(options) {
     var _this = this;
 
@@ -155,11 +153,12 @@ L.Control.Select = L.Control.extend({
     }
 
     this.state = {
-      selected: opts.selectedDefault, // false || {value}multi
+      selected: opts.selectedDefault,
+      // false || {value}multi
       open: false // false || 'top' || {value}
-    };
 
-    // assigning parents to items
+    }; // assigning parents to items
+
     var assignParent = function assignParent(item) {
       if (_this._isGroup(item)) {
         item.items.map(function (item2) {
@@ -172,17 +171,18 @@ L.Control.Select = L.Control.extend({
     this.options.items.map(function (item) {
       item.parent = 'top';
       assignParent(item);
-    });
+    }); // assigning children to items
 
-    // assigning children to items
     var getChildren = function getChildren(item) {
       var children = [];
+
       if (_this._isGroup(item)) {
         item.items.map(function (item2) {
           children.push(item2.value);
           children = children.concat(getChildren(item2));
         });
       }
+
       return children;
     };
 
@@ -200,36 +200,26 @@ L.Control.Select = L.Control.extend({
       assignChildrens(item);
     });
   },
-
   onAdd: function onAdd(map) {
     this.map = map;
     var opts = this.options;
-
     this.container = L.DomUtil.create('div', 'leaflet-control leaflet-bar leaflet-control-select');
     this.container.setAttribute('id', this.options.id);
-
     var icon = L.DomUtil.create('a', opts.iconMain + ' leaflet-control-button ', this.container);
-
     map.on('click', this._hideMenu, this);
-
     L.DomEvent.on(icon, 'click', L.DomEvent.stop);
     L.DomEvent.on(icon, 'click', this._iconClicked, this);
-
     L.DomEvent.disableClickPropagation(this.container);
     L.DomEvent.disableScrollPropagation(this.container);
-
     this.render();
     return this.container;
   },
-
   _renderRadioIcon: function _renderRadioIcon(selected, contentDiv) {
     L.DomUtil.create('i', 'fa ' + (selected ? this.options.iconChecked : this.options.iconUnchecked), contentDiv);
   },
   _renderGroupIcon: function _renderGroupIcon(selected, contentDiv) {
     L.DomUtil.create('i', 'fa ' + (selected ? this.options.iconGroupChecked : this.options.iconGroupUnchecked), contentDiv);
   },
-
-
   _renderItem: function _renderItem(item, menu) {
     var _this2 = this;
 
@@ -238,11 +228,11 @@ L.Control.Select = L.Control.extend({
     var p = L.DomUtil.create('div', 'leaflet-control-select-menu-line', menu);
     var pContent = L.DomUtil.create('div', 'leaflet-control-select-menu-line-content', p);
     var textSpan = L.DomUtil.create('span', '', pContent);
-
     textSpan.innerHTML = item.label;
 
     if (this._isGroup(item)) {
       this._renderGroupIcon(selected, pContent);
+
       if (this._isOpen(item)) {
         this._renderMenu(p, item.items);
       }
@@ -253,10 +243,8 @@ L.Control.Select = L.Control.extend({
     L.DomEvent.addListener(pContent, 'click', function (e) {
       _this2._itemClicked(item);
     });
-
     return p;
   },
-
   _renderMenu: function _renderMenu(parent, items) {
     var _this3 = this;
 
@@ -266,17 +254,15 @@ L.Control.Select = L.Control.extend({
       _this3._renderItem(item, menu);
     });
   },
-
-
   _clearMenus: function _clearMenus() {
     this.menus.map(function (menu) {
       return menu.remove();
     });
     this.meus = [];
   },
-
   render: function render() {
     this._clearMenus();
+
     this.state.open ? this._renderMenu(this.container, this.options.items) : false;
   },
 

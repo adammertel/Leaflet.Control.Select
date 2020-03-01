@@ -301,9 +301,9 @@ L.Control.Select = L.Control.extend({
 
   render: function() {
     this._clearMenus();
-    this.state.open
-      ? this._renderMenu(this.container, this.options.items)
-      : false;
+    if (this.state.open) {
+      this._renderMenu(this.container, this.options.items);
+    }
   },
 
   /* public methods */
