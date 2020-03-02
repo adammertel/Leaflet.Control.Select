@@ -13,8 +13,8 @@ L.Control.Select = L.Control.extend({
     // "☑"
     iconUnchecked: "ⵔ",
     //"❒",
-    iconGroupChecked: "▼",
-    iconGroupUnchecked: " ▶",
+    iconGroupChecked: "▶",
+    iconGroupUnchecked: "⊳",
     multi: false,
     items: [],
     // {value: 'String', 'label': 'String', items?: [items]}
@@ -123,15 +123,11 @@ L.Control.Select = L.Control.extend({
   },
   _itemClicked: function _itemClicked(item) {
     if (this._isGroup(item)) {
-      if (this.state.open === item.value) {
-        this._emit("GROUP_CLOSE", {
-          item: item
-        });
-      } else {
-        this._emit("GROUP_OPEN", {
-          item: item
-        });
-      }
+      this.state.open === item.value ? this._emit("GROUP_CLOSE", {
+        item: item
+      }) : this._emit("GROUP_OPEN", {
+        item: item
+      });
     } else {
       this._emit("ITEM_SELECT", {
         item: item
@@ -233,9 +229,7 @@ L.Control.Select = L.Control.extend({
     if (this._isGroup(item)) {
       this._renderGroupIcon(selected, pContent);
 
-      if (this._isOpen(item)) {
-        this._renderMenu(p, item.items);
-      }
+      this._isOpen(item) && this._renderMenu(p, item.items);
     } else {
       this._renderRadioIcon(selected, pContent);
     }

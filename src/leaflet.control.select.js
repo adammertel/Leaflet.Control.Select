@@ -5,8 +5,8 @@ L.Control.Select = L.Control.extend({
     iconMain: "≡",
     iconChecked: "◉", // "☑"
     iconUnchecked: "ⵔ", //"❒",
-    iconGroupChecked: "▼",
-    iconGroupUnchecked: " ▶",
+    iconGroupChecked: "▶",
+    iconGroupUnchecked: "⊳",
 
     multi: false,
 
@@ -15,13 +15,13 @@ L.Control.Select = L.Control.extend({
     selectedDefault: false,
     additionalClass: "",
 
-    onOpen: function() {},
-    onClose: function() {},
-    onGroupOpen: function(itemGroup) {},
-    onSelect: function(item) {}
+    onOpen: () => {},
+    onClose: () => {},
+    onGroupOpen: itemGroup => {},
+    onSelect: item => {}
   },
 
-  _emit: function(action, data) {
+  _emit(action, data) {
     const newState = {};
 
     switch (action) {
@@ -63,7 +63,7 @@ L.Control.Select = L.Control.extend({
     this.render();
   },
 
-  _setState: function(newState) {
+  _setState(newState) {
     // events
     if (
       this.options.onSelect &&
@@ -94,11 +94,11 @@ L.Control.Select = L.Control.extend({
     this.state = Object.assign(this.state, newState);
   },
 
-  _isGroup: function(item) {
+  _isGroup(item) {
     return "items" in item;
   },
 
-  _isSelected: function(item) {
+  _isSelected(item) {
     const sel = this.state.selected;
     if (sel) {
       if (this._isGroup(item)) {
@@ -118,32 +118,30 @@ L.Control.Select = L.Control.extend({
     }
   },
 
-  _isOpen: function(item) {
+  _isOpen(item) {
     const open = this.state.open;
     return open && (open === item.value || item.children.includes(open));
   },
 
-  _hideMenu: function() {
+  _hideMenu() {
     this._emit("MENU_CLOSE", {});
   },
 
-  _iconClicked: function() {
+  _iconClicked() {
     this._emit("MENU_OPEN", {});
   },
 
-  _itemClicked: function(item) {
+  _itemClicked(item) {
     if (this._isGroup(item)) {
-      if (this.state.open === item.value) {
-        this._emit("GROUP_CLOSE", { item: item });
-      } else {
-        this._emit("GROUP_OPEN", { item: item });
-      }
+      this.state.open === item.value
+        ? this._emit("GROUP_CLOSE", { item })
+        : this._emit("GROUP_OPEN", { item });
     } else {
-      this._emit("ITEM_SELECT", { item: item });
+      this._emit("ITEM_SELECT", { item });
     }
   },
 
-  initialize: function(options) {
+  initialize(options) {
     this.menus = [];
     L.Util.setOptions(this, options);
     const opts = this.options;
@@ -200,7 +198,7 @@ L.Control.Select = L.Control.extend({
     });
   },
 
-  onAdd: function(map) {
+  onAdd(map) {
     this.map = map;
     const opts = this.options;
 
@@ -245,7 +243,7 @@ L.Control.Select = L.Control.extend({
       : this.options.iconGroupUnchecked;
   },
 
-  _renderItem: function(item, menu) {
+  _renderItem(item, menu) {
     const selected = this._isSelected(item);
 
     const p = L.DomUtil.create("div", "leaflet-control-select-menu-line", menu);
@@ -260,9 +258,7 @@ L.Control.Select = L.Control.extend({
 
     if (this._isGroup(item)) {
       this._renderGroupIcon(selected, pContent);
-      if (this._isOpen(item)) {
-        this._renderMenu(p, item.items);
-      }
+      this._isOpen(item) && this._renderMenu(p, item.items);
     } else {
       this._renderRadioIcon(selected, pContent);
     }
@@ -286,12 +282,12 @@ L.Control.Select = L.Control.extend({
     });
   },
 
-  _clearMenus: function() {
+  _clearMenus() {
     this.menus.map(menu => menu.remove());
     this.meus = [];
   },
 
-  render: function() {
+  render() {
     this._clearMenus();
     if (this.state.open) {
       this._renderMenu(this.container, this.options.items);
@@ -299,7 +295,7 @@ L.Control.Select = L.Control.extend({
   },
 
   /* public methods */
-  close: function() {
+  close() {
     this._hideMenu();
   }
 });
