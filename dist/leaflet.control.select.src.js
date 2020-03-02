@@ -9,8 +9,10 @@ L.Control.Select = L.Control.extend({
   options: {
     position: "topright",
     iconMain: "≡",
-    iconChecked: "☑",
-    iconUnchecked: "❒",
+    iconChecked: "◉",
+    // "☑"
+    iconUnchecked: "ⵔ",
+    //"❒",
     iconGroupChecked: "▼",
     iconGroupUnchecked: " ▶",
     multi: false,
@@ -199,9 +201,9 @@ L.Control.Select = L.Control.extend({
     this.map = map;
     var opts = this.options;
     this.container = L.DomUtil.create("div", "leaflet-control leaflet-bar leaflet-control-select");
-    this.container.setAttribute("id", this.options.id);
+    this.container.setAttribute("id", opts.id);
     var icon = L.DomUtil.create("a", "leaflet-control-button ", this.container);
-    icon.innerHTML = this.options.iconMain;
+    icon.innerHTML = opts.iconMain;
     map.on("click", this._hideMenu, this);
     L.DomEvent.on(icon, "click", L.DomEvent.stop);
     L.DomEvent.on(icon, "click", this._iconClicked, this);
@@ -211,11 +213,11 @@ L.Control.Select = L.Control.extend({
     return this.container;
   },
   _renderRadioIcon: function _renderRadioIcon(selected, contentDiv) {
-    var radio = L.DomUtil.create("span", "radio", contentDiv);
+    var radio = L.DomUtil.create("span", "radio icon", contentDiv);
     radio.innerHTML = selected ? this.options.iconChecked : this.options.iconUnchecked;
   },
   _renderGroupIcon: function _renderGroupIcon(selected, contentDiv) {
-    var group = L.DomUtil.create("span", "group", contentDiv);
+    var group = L.DomUtil.create("span", "group icon", contentDiv);
     group.innerHTML = selected ? this.options.iconGroupChecked : this.options.iconGroupUnchecked;
   },
   _renderItem: function _renderItem(item, menu) {
@@ -225,7 +227,7 @@ L.Control.Select = L.Control.extend({
 
     var p = L.DomUtil.create("div", "leaflet-control-select-menu-line", menu);
     var pContent = L.DomUtil.create("div", "leaflet-control-select-menu-line-content", p);
-    var textSpan = L.DomUtil.create("span", "", pContent);
+    var textSpan = L.DomUtil.create("span", "text", pContent);
     textSpan.innerHTML = item.label;
 
     if (this._isGroup(item)) {

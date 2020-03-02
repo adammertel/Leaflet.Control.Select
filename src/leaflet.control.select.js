@@ -3,8 +3,8 @@ L.Control.Select = L.Control.extend({
     position: "topright",
 
     iconMain: "≡",
-    iconChecked: "☑",
-    iconUnchecked: "❒",
+    iconChecked: "◉", // "☑"
+    iconUnchecked: "ⵔ", //"❒",
     iconGroupChecked: "▼",
     iconGroupUnchecked: " ▶",
 
@@ -208,14 +208,14 @@ L.Control.Select = L.Control.extend({
       "div",
       "leaflet-control leaflet-bar leaflet-control-select"
     );
-    this.container.setAttribute("id", this.options.id);
+    this.container.setAttribute("id", opts.id);
 
     const icon = L.DomUtil.create(
       "a",
       "leaflet-control-button ",
       this.container
     );
-    icon.innerHTML = this.options.iconMain;
+    icon.innerHTML = opts.iconMain;
 
     map.on("click", this._hideMenu, this);
 
@@ -230,14 +230,16 @@ L.Control.Select = L.Control.extend({
   },
 
   _renderRadioIcon(selected, contentDiv) {
-    const radio = L.DomUtil.create("span", "radio", contentDiv);
+    const radio = L.DomUtil.create("span", "radio icon", contentDiv);
+
     radio.innerHTML = selected
       ? this.options.iconChecked
       : this.options.iconUnchecked;
   },
 
   _renderGroupIcon(selected, contentDiv) {
-    const group = L.DomUtil.create("span", "group", contentDiv);
+    const group = L.DomUtil.create("span", "group icon", contentDiv);
+
     group.innerHTML = selected
       ? this.options.iconGroupChecked
       : this.options.iconGroupUnchecked;
@@ -252,7 +254,7 @@ L.Control.Select = L.Control.extend({
       "leaflet-control-select-menu-line-content",
       p
     );
-    const textSpan = L.DomUtil.create("span", "", pContent);
+    const textSpan = L.DomUtil.create("span", "text", pContent);
 
     textSpan.innerHTML = item.label;
 

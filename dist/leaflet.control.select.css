@@ -27,12 +27,14 @@
     width: auto; }
     .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line .leaflet-control-select-menu-line-content {
       width: 100%; }
-    .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line span,
-    .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line i {
+      .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line .leaflet-control-select-menu-line-content .icon {
+        position: absolute;
+        right: 6px;
+        margin-top: 1px;
+        width: 10px;
+        text-align: center; }
+      .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line .leaflet-control-select-menu-line-content .icon,
+      .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line .leaflet-control-select-menu-line-content .text {
+        display: inline; }
+    .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line span {
       display: inline; }
-    .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line i {
-      position: absolute;
-      right: 6px;
-      margin-top: 3px;
-      width: 10px;
-      text-align: center; }
