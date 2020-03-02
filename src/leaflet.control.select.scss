@@ -1,7 +1,7 @@
 .leaflet-control-select {
   .leaflet-control-button {
     cursor: pointer;
-    font-size: 23px;
+    font-size: 20px;
   }
   .leaflet-control-select-menu {
     width: auto;
@@ -20,8 +20,15 @@
   }
   .leaflet-control-select-menu {
     background-color: white;
+    color: black;
 
     .leaflet-control-select-menu-line {
+      &.group {
+        &.group-opened {
+          background-color: grey;
+          color: white;
+        }
+      }
       padding: 7px;
       padding-right: 20px;
       padding-left: 10px;

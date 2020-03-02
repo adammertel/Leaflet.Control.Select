@@ -2,7 +2,7 @@ import * as L from "leaflet";
 import { randomPoint } from "@turf/random";
 
 require("./../node_modules/leaflet/dist/leaflet.css");
-require("../dist/leaflet.control.select.js");
+require("../dist/leaflet.control.select.src.js");
 require("./../dist/leaflet.control.select.css");
 
 require("./demo.css");

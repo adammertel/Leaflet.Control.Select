@@ -76,6 +76,7 @@ L.Control.Select = L.Control.extend({
     }
 
     if (this.options.onGroupOpen && newState.open && newState.open !== this.state.open) {
+      console.log("group open");
       this.options.onGroupOpen(newState.open);
     }
 
@@ -221,14 +222,18 @@ L.Control.Select = L.Control.extend({
 
     var selected = this._isSelected(item);
 
+    console.log("rendering item", item, menu);
     var p = L.DomUtil.create("div", "leaflet-control-select-menu-line", menu);
     var pContent = L.DomUtil.create("div", "leaflet-control-select-menu-line-content", p);
     var textSpan = L.DomUtil.create("span", "text", pContent);
     textSpan.innerHTML = item.label;
 
     if (this._isGroup(item)) {
-      this._renderGroupIcon(selected, pContent);
+      this._renderGroupIcon(selected, pContent); // adding classes to groups and opened group
 
+
+      L.DomUtil.addClass(p, "group");
+      this._isOpen(item) && L.DomUtil.addClass(p, "group-opened");
       this._isOpen(item) && this._renderMenu(p, item.items);
     } else {
       this._renderRadioIcon(selected, pContent);

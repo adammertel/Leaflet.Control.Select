@@ -1,6 +1,6 @@
 .leaflet-control-select .leaflet-control-button {
   cursor: pointer;
-  font-size: 23px; }
+  font-size: 20px; }
 
 .leaflet-control-select .leaflet-control-select-menu {
   width: auto; }
@@ -17,7 +17,8 @@
   margin-left: 5px; }
 
 .leaflet-control-select .leaflet-control-select-menu {
-  background-color: white; }
+  background-color: white;
+  color: black; }
   .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line {
     padding: 7px;
     padding-right: 20px;
@@ -27,6 +28,9 @@
     white-space: nowrap;
     display: -webkit-box;
     width: auto; }
+    .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line.group.group-opened {
+      background-color: grey;
+      color: white; }
     .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line .leaflet-control-select-menu-line-content {
       width: 100%; }
       .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line .leaflet-control-select-menu-line-content .icon {

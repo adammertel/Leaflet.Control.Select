@@ -80,6 +80,7 @@ L.Control.Select = L.Control.extend({
       newState.open &&
       newState.open !== this.state.open
     ) {
+      console.log("group open");
       this.options.onGroupOpen(newState.open);
     }
 
@@ -245,6 +246,7 @@ L.Control.Select = L.Control.extend({
 
   _renderItem(item, menu) {
     const selected = this._isSelected(item);
+    console.log("rendering item", item, menu);
 
     const p = L.DomUtil.create("div", "leaflet-control-select-menu-line", menu);
     const pContent = L.DomUtil.create(
@@ -258,6 +260,11 @@ L.Control.Select = L.Control.extend({
 
     if (this._isGroup(item)) {
       this._renderGroupIcon(selected, pContent);
+
+      // adding classes to groups and opened group
+      L.DomUtil.addClass(p, "group");
+      this._isOpen(item) && L.DomUtil.addClass(p, "group-opened");
+
       this._isOpen(item) && this._renderMenu(p, item.items);
     } else {
       this._renderRadioIcon(selected, pContent);
