@@ -1,5 +1,6 @@
 .leaflet-control-select {
   .leaflet-control-button {
+    cursor: pointer;
     font-size: 23px;
   }
   .leaflet-control-select-menu {
@@ -13,8 +14,9 @@
   }
   .leaflet-control-select-menu:nth-of-type(n + 2) {
     margin-top: -7px;
-    margin-left: 25px;
     position: absolute;
+    left: 100%;
+    margin-left: 5px;
   }
   .leaflet-control-select-menu {
     background-color: white;
