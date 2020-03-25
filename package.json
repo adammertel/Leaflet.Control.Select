@@ -18,7 +18,7 @@
   "homepage": "https://github.com/adammertel/Leaflet.Control.Select#readme",
   "scripts": {
     "jshint": "jshint src",
-    "storybook": "start-storybook",
+    "storybook": "start-storybook --docs",
     "banners": "run-s banner-js-src banner-js",
     "banner-js-src": "concat-cli -f banner dist/leaflet.control.select.src.js -o dist/leaflet.control.select.src.js",
     "banner-js": "concat-cli -f banner dist/leaflet.control.select.js -o dist/leaflet.control.select.js",
