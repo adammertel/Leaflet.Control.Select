@@ -1,2 +1,2 @@
 import initStoryshots from "@storybook/addon-storyshots";
-initStoryshots();
+initStoryshots({ framework: "html" });

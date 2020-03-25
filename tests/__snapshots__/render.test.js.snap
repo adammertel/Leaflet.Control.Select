@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Basic Test story 1`] = `
+<div
+  id="map"
+/>
+`;
+
+exports[`Storyshots FontAwesome FontAwesome 1`] = `
+<div
+  id="map"
+/>
+`;
+
+exports[`Storyshots Groups Test story 1`] = `
+<div
+  id="map"
+/>
+`;
+
+exports[`Storyshots Multiple Test story 1`] = `
+<div
+  id="map"
+/>
+`;
