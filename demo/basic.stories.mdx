@@ -11,11 +11,50 @@ import "./demo.css";
 
 # Basic use
 
-- takes list of task to display
-- handles `remove task` action
-- handles `add task` action
+Very basic example that showing a single level menu and binds an `onSelect` action that is changing the marker icon.
 
-### Test story
+**list of items:**
+
+```js
+var items = [
+  { label: "sunny", value: "☼" },
+  { label: "half-sunny", value: "🌤" },
+  { label: "half-raining", value: "🌦" },
+  { label: "raining", value: "🌨" },
+  { label: "tornado", value: "🌪" }
+];
+```
+
+**initialization of the L.Control.Select:**
+
+```js
+L.control
+  .select({
+    position: "topleft",
+    selectedDefault: defaultValue,
+    items: items,
+    onSelect: function(newItemValue) {
+      drawMarker(newItemValue);
+    }
+  })
+  .addTo(map);
+```
+
+**draw marker function:**
+
+```js
+var drawMarker = newItemValue => {
+  marker.setIcon(
+    L.divIcon({
+      html: '<div class="icon">' + newItemValue + "</div>",
+      className: "marker-icon",
+      iconSize: [40, 40]
+    })
+  );
+};
+```
+
+### Story
 
 <Preview>
   <Story name="Test story">
@@ -35,10 +74,10 @@ import "./demo.css";
           { label: "raining", value: "🌨" },
           { label: "tornado", value: "🌪" }
         ];
-        var drawMarker = icon => {
+        var drawMarker = newItemValue => {
           marker.setIcon(
             L.divIcon({
-              html: '<div class="icon">' + icon + "</div>",
+              html: '<div class="icon">' + newItemValue + "</div>",
               className: "marker-icon",
               iconSize: [40, 40]
             })
@@ -55,8 +94,8 @@ import "./demo.css";
             position: "topleft",
             selectedDefault: defaultValue,
             items: items,
-            onSelect: function(newIcon) {
-              drawMarker(newIcon);
+            onSelect: function(newItemValue) {
+              drawMarker(newItemValue);
             }
           })
           .addTo(map);
