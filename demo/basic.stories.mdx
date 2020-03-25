@@ -1,0 +1,69 @@
+import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+
+import * as L from "leaflet";
+import "./../node_modules/leaflet/dist/leaflet.css";
+import "../dist/leaflet.control.select.src.js";
+import "./../dist/leaflet.control.select.css";
+
+import "./demo.css";
+
+<Meta title="Basic" />
+
+# Basic use
+
+- takes list of task to display
+- handles `remove task` action
+- handles `add task` action
+
+### Test story
+
+<Preview>
+  <Story name="Test story">
+    {() => {
+      const mapDiv = document.createElement("div");
+      mapDiv.setAttribute("id", "map");
+      setTimeout(() => {
+        console.log("loaded");
+        var map;
+        var marker;
+        var mapZoom = 11;
+        var mapPosition = [49, 18];
+        var items = [
+          { label: "sunny", value: "☼" },
+          { label: "half-sunny", value: "🌤" },
+          { label: "half-raining", value: "🌦" },
+          { label: "raining", value: "🌨" },
+          { label: "tornado", value: "🌪" }
+        ];
+        var drawMarker = icon => {
+          marker.setIcon(
+            L.divIcon({
+              html: '<div class="icon">' + icon + "</div>",
+              className: "marker-icon",
+              iconSize: [40, 40]
+            })
+          );
+        };
+        map = L.map("map", { maxZoom: 14 }).setView(mapPosition, mapZoom);
+        L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        var defaultValue = items[0].value;
+        L.control
+          .select({
+            position: "topleft",
+            selectedDefault: defaultValue,
+            items: items,
+            onSelect: function(newIcon) {
+              drawMarker(newIcon);
+            }
+          })
+          .addTo(map);
+        marker = L.marker([49, 18]).addTo(map);
+        drawMarker(defaultValue);
+      }, 0);
+      return mapDiv;
+    }}
+  </Story>
+</Preview>
