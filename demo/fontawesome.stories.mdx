@@ -1,0 +1,235 @@
+import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+
+import * as L from "leaflet";
+import "./../node_modules/leaflet/dist/leaflet.css";
+import "../dist/leaflet.control.select.src.js";
+import "./../dist/leaflet.control.select.css";
+
+import "./demo.css";
+import "@fortawesome/fontawesome-free/css/all.css";
+
+<Meta title="FontAwesome" />
+
+# FontAwesome integration
+
+FontAwesome icons can be used to build the menu.
+
+**creating a list of items**
+
+```js
+const items = [
+  {
+    id: "bolt",
+    icon: "fa-bolt",
+    active: true,
+    places: [
+      [53, 13.425],
+      [53.63, 15.18]
+    ]
+  },
+  {
+    id: "wind",
+    icon: "fa-wind",
+    active: true,
+    places: [
+      [51.7, 14.2],
+      [53.6, 11.4],
+      [50.7, 11.8],
+      [49.7, 14.4]
+    ]
+  },
+...
+];
+```
+
+**initliazation of the L.Control.Select**
+
+```js
+L.control
+  .select({
+    position: "topleft",
+    selectedDefault: items.map(i => i.id),
+    multi: true,
+    iconChecked: '<i class="fa fa-square" />',
+    iconUnchecked: '<i class="far fa-square" />',
+    items: items.map(item => {
+      return {
+        label: '<i class="fa ' + item.icon + '" /> ' + item.id,
+        value: item.id
+      };
+    }),
+    onSelect: function(selectedItemValues) {
+      items.forEach(item => {
+        item.active = selectedItemValues.includes(item.id);
+      });
+      redrawMarkers();
+    }
+  })
+  .addTo(map);
+```
+
+**redraw marker function**
+
+```js
+var redrawMarkers = () => {
+  markers.forEach(marker => {
+    map.removeLayer(marker);
+  });
+  markers = [];
+  items
+    .filter(s => s.active)
+    .forEach(group => {
+      group.places.forEach(place => {
+        const marker = L.marker(place);
+        marker.setIcon(
+          L.divIcon({
+            html:
+              '<div class="icon"><i class="fa ' +
+              group.icon +
+              '" />' +
+              "</div>",
+            className: "marker-icon",
+            iconSize: [40, 40]
+          })
+        );
+        marker.addTo(map);
+        markers.push(marker);
+      });
+    });
+};
+```
+
+### Story
+
+<Preview>
+  <Story name="FontAwesome">
+    {() => {
+      const mapDiv = document.createElement("div");
+      mapDiv.setAttribute("id", "map");
+      setTimeout(() => {
+        var map;
+        var marker;
+        var mapZoom = 6;
+        var mapPosition = [51, 17];
+        let markers = [];
+        // creating list of items
+        const items = [
+          {
+            id: "bolt",
+            icon: "fa-bolt",
+            active: true,
+            places: [
+              [53, 13.425],
+              [53.63, 15.18]
+            ]
+          },
+          {
+            id: "wind",
+            icon: "fa-wind",
+            active: true,
+            places: [
+              [51.7, 14.2],
+              [53.6, 11.4],
+              [50.7, 11.8],
+              [49.7, 14.4]
+            ]
+          },
+          {
+            id: "cloud",
+            icon: "fa-cloud",
+            active: true,
+            places: [
+              [48.4, 11.6],
+              [49.4, 12],
+              [48.3, 13.2],
+              [48.5, 21.5],
+              [53.5, 17.1]
+            ]
+          },
+          {
+            id: "cloud-sun",
+            icon: "fa-cloud-sun",
+            active: true,
+            places: [
+              [50.2, 17.8],
+              [48.3, 16.6],
+              [48.5, 19.2],
+              [49.8, 22.1],
+              [51.9, 16.1]
+            ]
+          },
+          {
+            id: "sun",
+            icon: "fa-sun",
+            active: true,
+            places: [
+              [53.4, 20.1],
+              [51.9, 20.1],
+              [23.2, 22.6]
+            ]
+          }
+        ];
+        // method for refreshing map content
+        var redrawMarkers = () => {
+          markers.forEach(marker => {
+            map.removeLayer(marker);
+          });
+          markers = [];
+          items
+            .filter(s => s.active)
+            .forEach(group => {
+              group.places.forEach(place => {
+                const marker = L.marker(place);
+                marker.setIcon(
+                  L.divIcon({
+                    html:
+                      '<div class="icon"><i class="fa ' +
+                      group.icon +
+                      '" />' +
+                      "</div>",
+                    className: "marker-icon",
+                    iconSize: [40, 40]
+                  })
+                );
+                marker.addTo(map);
+                markers.push(marker);
+              });
+            });
+        };
+        // initialization of map
+        map = L.map("map", { maxZoom: mapZoom, minZoom: mapZoom }).setView(
+          mapPosition,
+          mapZoom
+        );
+        L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        // initialization of select control
+        L.control
+          .select({
+            position: "topleft",
+            selectedDefault: items.map(i => i.id),
+            multi: true,
+            iconChecked: '<i class="fa fa-square" />',
+            iconUnchecked: '<i class="far fa-square" />',
+            items: items.map(item => {
+              return {
+                label: '<i class="fa ' + item.icon + '" /> ' + item.id,
+                value: item.id
+              };
+            }),
+            onSelect: function(selectedItemValues) {
+              items.forEach(item => {
+                item.active = selectedItemValues.includes(item.id);
+              });
+              redrawMarkers();
+            }
+          })
+          .addTo(map);
+        redrawMarkers();
+      }, 0);
+      return mapDiv;
+    }}
+  </Story>
+</Preview>

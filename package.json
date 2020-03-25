@@ -36,6 +36,7 @@
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.6",
     "@babel/preset-env": "^7.8.6",
+    "@fortawesome/fontawesome-free": "^5.13.0",
     "@storybook/addon-docs": "^5.3.17",
     "@storybook/addon-storyshots": "^5.3.17",
     "@storybook/html": "^5.3.17",
