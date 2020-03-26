@@ -28,7 +28,8 @@
     "onchange-css": "onchange src/**/*.scss -- npm run sass",
     "sass": "node-sass src/leaflet.control.select.scss > dist/leaflet.control.select.css",
     "build": "run-s sass babel minify banners",
-    "start": "run-p onchange-css onchange-js build",
+    "build-storybook": "build-storybook -c .storybook -o docs",
+    "start": "run-p storybook onchange-css onchange-js build",
     "test": "jest",
     "test-update": "jest --updateSnapshot --modulePaths=src"
   },
