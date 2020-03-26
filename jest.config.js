@@ -3,8 +3,8 @@ module.exports = {
   testMatch: ["**/*.test.(js|ts|tsx|mdx)"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "css"],
   transform: {
-    "^.+\\.([j|t]sx?)$": "<rootDir>/node_modules/babel-jest",
-    "^.+\\.mdx?$": "@storybook/addon-docs/jest-transform-mdx"
+    "^.+\\.mdx?$": "@storybook/addon-docs/jest-transform-mdx",
+    "^.+\\.([j|t]sx?)$": "<rootDir>/node_modules/babel-jest"
   },
   moduleNameMapper: {
     "\\.(css|less|scss)$": "identity-obj-proxy"

@@ -27,16 +27,17 @@
     "onchange-js": "onchange src/**/*.js -- npm run build",
     "onchange-css": "onchange src/**/*.scss -- npm run sass",
     "sass": "node-sass src/leaflet.control.select.scss > dist/leaflet.control.select.css",
-    "build": "run-s sass babel minify banners",
+    "build": "run-s test sass babel minify banners",
     "build-storybook": "build-storybook -c .storybook -o docs",
     "start": "run-p storybook onchange-css onchange-js build",
     "test": "jest",
-    "test-update": "jest --updateSnapshot --modulePaths=src"
+    "test-update": "jest --clearCache && jest --updateSnapshot --modulePaths=src"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.6",
-    "@babel/preset-env": "^7.8.6",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
     "@fortawesome/fontawesome-free": "^5.13.0",
     "@storybook/addon-docs": "^5.3.17",
     "@storybook/addon-storyshots": "^5.3.17",
@@ -48,12 +49,12 @@
     "babel-plugin-transform-remove-console": "^6.9.4",
     "concat-cli": "^4.0.0",
     "identity-obj-proxy": "^3.0.0",
+    "jest": "^25.2.2",
     "jshint": "^2.11.0",
     "leaflet": "^1.6.0",
     "node-sass": "^4.13.1",
     "npm-run-all": "^4.1.5",
-    "onchange": "^6.1.0",
-    "ts-jest": "^25.2.1"
+    "onchange": "^6.1.0"
   },
   "peerDependencies": {
     "leaflet": "^1.6.0"

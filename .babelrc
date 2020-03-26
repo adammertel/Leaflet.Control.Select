@@ -1,5 +1,5 @@
 {
-  "presets": [["@babel/env", { "loose": true }]],
+  "presets": [["@babel/env", { "loose": true }], ["@babel/react"]],
   "env": {
     "test": {
       "presets": [["@babel/preset-env", { "targets": { "node": "current" } }]],
