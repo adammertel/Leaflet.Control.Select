@@ -1,4 +1,4 @@
-name: creating builds on project release
+name: build
 
 on:
   release:

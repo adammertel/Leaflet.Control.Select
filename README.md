@@ -1,6 +1,7 @@
 # Leaflet.Control.Select
 
-[![Actions Status](https://github.com/adammertel/Leaflet.Control.Select/workflows/client-code/badge.svg)](https://github.com/adammertel/Leaflet.Control.Select/actions)
+[![Tests Status](https://github.com/adammertel/Leaflet.Control.Select/workflows/tests/badge.svg)](https://github.com/adammertel/Leaflet.Control.Select/actions)
+[![Builds Status](https://github.com/adammertel/Leaflet.Control.Select/workflows/build/badge.svg)](https://github.com/adammertel/Leaflet.Control.Select/actions)
 
 Plugin for [Leaflet](leaflet.com) library that adds a new control class.
 
@@ -20,9 +21,9 @@ Storybook implemented ()
 
 ## How to use
 
-- 1. a) `npm i
-- 1. b) downlaod this repository and use dist folder (you can also build it (see `How to develop`))
-- 2. include the original leaflet js and css also
+- 1. a) get the npm package `npm i --save leaflet.control.select`
+- 1. b) download/clone/fork this repository and use dist folder (you can also build it (see `How to develop`))
+- 2. include the original leaflet js and css
 - 3. define `L.Control.Select` instance (see options or storybook documentation)
 
 ```js
@@ -56,11 +57,11 @@ L.control
 
 ### content
 
-#### **items** (default [])
+#### **items** (default `[]`)
 
-the content of menu, a collection of objects with **label** and **value** keys
+the content of menu, a collection of objects with **label** and **value** keys (if no labels are provided, values will be used as labels)
 
-simple example:
+simple items example:
 
 ```js
     { label: 'option 1', value: 'user-o' },
@@ -70,7 +71,7 @@ simple example:
     { label: 'option 5', value: 'cog' }
 ```
 
-nested example:
+nested items example:
 
 ```js
 [
@@ -106,25 +107,25 @@ nested example:
 
 #### **multi** (default `false`)
 
-**true** if it is possible to choose more items at the same time (radio / checkbox mode)
+**true** possible to choose more items at the same time (radio / checkbox mode)
 
 #### **selectedDefault** (default `false`)
 
-put {value} of item or [{value},..] of more items (multi is true !) to make the items selected defaultly
+value or list of values to be selected at the initialization
 
 ### DOM
 
-#### **id** (default `''`)
+#### **id** (default `""`)
 
-id of the wrapper div element
+id for the wrapper div element
 
-#### **additionalClass** (default `''`)
+#### **additionalClass** (default `""`)
 
 additional class of the wrapper div element
 
 ### icons
 
-#### **iconMain** (default `'≡'`)
+#### **iconMain** (default `"≡"`)
 
 icon for the control button
 
@@ -156,7 +157,7 @@ function emmited after the menu is closed
 
 #### **onSelect(item)** (default `function(item){}`)
 
-function emmited after an item is selected
+function emmited after an item is selected, returns the selected item
 
 #### **onGroupOpen(group item)** (default `function(item){}`)
 
@@ -170,9 +171,6 @@ closes the menu
 
 ## TODO
 
-- github workflows
 - unit tests
-- readme update + screenshots
-- code documentation
-- building docs folder
+- better code documentation
 - more methods
