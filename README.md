@@ -14,9 +14,9 @@ Storybook implemented ()
 
 ## Screenshots
 
-<img src="./assets/screen-multiple.png" alt="Multiple example" height="200" />
-<img src="./assets/screen-groups.png" alt="Groups example" height="200" />
-<img src="./assets/screen-fontawesome.png" alt="Font Awesome integration example" height="200" />
+<img src="./assets/screen-multiple.png" alt="Multiple example" width="400" />
+<img src="./assets/screen-groups.png" alt="Groups example" width="400" />
+<img src="./assets/screen-fontawesome.png" alt="Font Awesome integration example" width="400" />
 
 ## How to use
 
