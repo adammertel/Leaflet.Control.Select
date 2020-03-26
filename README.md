@@ -1,7 +1,7 @@
 # Leaflet.Control.Select
 
 [![Tests Status](https://github.com/adammertel/Leaflet.Control.Select/workflows/tests/badge.svg)](https://github.com/adammertel/Leaflet.Control.Select/actions)
-[![Builds Status](https://github.com/adammertel/Leaflet.Control.Select/workflows/build/badge.svg)](https://github.com/adammertel/Leaflet.Control.Select/actions)
+[![Storybook auto-build Status](https://github.com/adammertel/Leaflet.Control.Select/workflows/storybook-auto-build/badge.svg)](https://github.com/adammertel/Leaflet.Control.Select/actions)
 
 Plugin for [Leaflet](leaflet.com) library that adds a new control class.
 
