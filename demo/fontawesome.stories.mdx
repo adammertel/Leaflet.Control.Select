@@ -43,6 +43,7 @@ const items = [
 ```
 
 **initliazation of the L.Control.Select**
+Font Awesome can be used to define options content but also the main icon (`iconMain` option).
 
 ```js
 L.control
@@ -50,6 +51,7 @@ L.control
     position: "topleft",
     selectedDefault: items.map(i => i.id),
     multi: true,
+    iconMain: '<i class="fa fa-layer-group" />',
     iconChecked: '<i class="fa fa-square" />',
     iconUnchecked: '<i class="far fa-square" />',
     items: items.map(item => {
@@ -213,6 +215,7 @@ var redrawMarkers = () => {
             multi: true,
             iconChecked: '<i class="fa fa-square" />',
             iconUnchecked: '<i class="far fa-square" />',
+            iconMain: '<i class="fa fa-layer-group" />',
             items: items.map(item => {
               return {
                 label: '<i class="fa ' + item.icon + '" /> ' + item.id,
