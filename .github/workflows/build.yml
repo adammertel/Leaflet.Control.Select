@@ -1,4 +1,4 @@
-name: build
+name: storybook-auto-build
 
 on:
   release:
