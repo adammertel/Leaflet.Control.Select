@@ -1,0 +1,35 @@
+name: creating builds on project release
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: install
+        run: |
+          npm install
+      - name: test
+        run: |
+          npm run test
+      - name: build dist
+        run: |
+          npm run build
+      - name: build storybook
+        run: |
+          npm run build-storybook
+      - name: commit builds
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          gít add .
+          git commit -m "ACTION: builds recreated"
+      - name: push builds
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ACTION_PUSH_BUILD }}
+          force: true
+        env:
+          CI: true
