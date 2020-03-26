@@ -12,6 +12,12 @@ To create a menu-like component that can be implemented as a native leaflet cont
 
 Storybook implemented ()
 
+## Screenshots
+
+<img src="./assets/screen-multiple.png" alt="Multiple example" height="200" />
+<img src="./assets/screen-groups.png" alt="Groups example" height="200" />
+<img src="./assets/screen-fontawesome.png" alt="Font Awesome integration example" height="200" />
+
 ## How to use
 
 - 1. a) `npm i
