@@ -2,33 +2,53 @@
 
 Plugin for [Leaflet](leaflet.com) library that adds a new control class.
 
-![image](./img.png)
+![image](./aimg.png)
 
 ## Motivation
 
-To create a menu-like component that can be implemented as a native leaflet control.
+To create a menu-like component that can be implemented as a native leaflet control and control the interaction.
 
 ## Demo
 
-[basic](https://adammertel.github.io/Leaflet.Control.Select/demo/basic.html)
-
-[groups](https://adammertel.github.io/Leaflet.Control.Select/demo/groups.html)
-
-[multiple](https://adammertel.github.io/Leaflet.Control.Select/demo/multiple.html)
+Storybook implemented ()
 
 ## How to use
 
-- download the dist folder (or build it by yourself)
-- include original leaflet library (js and css)
-- include leaflet.control.select.js and leaflet.control.select.css from dist folder
-- include [font awesome](https://fontawesome.com/)
+- 1. a) `npm i
+- 1. b) downlaod this repository and use dist folder (you can also build it (see `How to develop`))
+- 2. include the original leaflet js and css also
+- 3. define `L.Control.Select` instance (see options or storybook documentation)
+
+```js
+var map = L.map("map", { maxZoom: 14 }).setView([49, 18], 11);
+var items = [
+  { label: "sunny", value: "☼" },
+  { label: "half-sunny", value: "🌤" },
+  { label: "half-raining", value: "🌦" },
+  { label: "raining", value: "🌨" },
+  { label: "tornado", value: "🌪" }
+];
+L.control
+  .select({
+    position: "topleft",
+    selectedDefault: defaultValue,
+    items: items,
+    onSelect: function(newItemValue) {
+      drawMarker(newItemValue);
+    }
+  })
+  .addTo(map);
+```
 
 ## How to develop
 
-- npm install
-- npm start / npm run build
+- `npm install` to get all modules needed for the development
+- `npm start` to open storybook environment, and set watchers for .js and .css files
+- `npm run build` to test and create the minified .js code
 
 ## Options
+
+### content
 
 #### **items** (default [])
 
@@ -78,55 +98,61 @@ nested example:
 ];
 ```
 
-#### **multi** (default false)
+#### **multi** (default `false`)
 
 **true** if it is possible to choose more items at the same time (radio / checkbox mode)
 
-#### **selectedDefault** (default false)
+#### **selectedDefault** (default `false`)
 
 put {value} of item or [{value},..] of more items (multi is true !) to make the items selected defaultly
 
-#### **id** (default '')
+### DOM
+
+#### **id** (default `''`)
 
 id of the wrapper div element
 
-#### **additionalClass** (default '')
+#### **additionalClass** (default `''`)
 
 additional class of the wrapper div element
 
-#### **iconMain** (default 'fa-home')
+### icons
+
+#### **iconMain** (default `'≡'`)
 
 icon for the control button
 
-#### **iconChecked** (default 'fa-circle')
+#### **iconChecked** (default `"◉"`)
 
 icon for checked item
 
-#### **iconUnchecked** (default 'fa-circle-o')
+#### **iconUnchecked** (default `"ⵔ"`)
 
 icon for unchecked item
 
-#### **iconGroupChecked** (default 'fa-caret-right')
+#### **iconGroupChecked** (default `"▶"`)
 
 icon for checked group (a group with a checked item)
 
-#### **iconGroupUnchecked** (default 'fa-angle-right')
+#### **iconGroupUnchecked** (default `"⊳"`)
 
 icon for unchecked group (a group without a checked item)
 
-#### **onOpen()** (default function(){})
+### Events
+
+#### **onOpen()** (default `function(){}`)
 
 function emmited after the menu is open
 
-#### **onClose()** (default function(){})
+#### **onClose()** (default `function(){}`)
 
 function emmited after the menu is closed
 
-#### **onSelect(item)** (default function(item){})
+#### **onSelect(item)** (default `function(item){}`)
 
 function emmited after an item is selected
 
-#### **onGroupOpen(group item)** (default function(item){})
+#### **onGroupOpen(group item)** (default `function(item){}`)
 
 function emmited after the group is clicked, returns the group item
 
@@ -136,4 +162,11 @@ function emmited after the group is clicked, returns the group item
 
 closes the menu
 
-_other methods will be added later_
+## TODO
+
+- github workflows
+- unit tests
+- readme update + screenshots
+- code documentation
+- building docs folder
+- more methods
