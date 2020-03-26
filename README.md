@@ -1,8 +1,8 @@
 # Leaflet.Control.Select
 
-Plugin for [Leaflet](leaflet.com) library that adds a new control class.
+[![Actions Status](https://github.com/adammertel/Leaflet.Control.Select/workflows/client-code/badge.svg)](https://github.com/adammertel/Leaflet.Control.Select/actions)
 
-![image](./aimg.png)
+Plugin for [Leaflet](leaflet.com) library that adds a new control class.
 
 ## Motivation
 
