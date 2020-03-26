@@ -21,6 +21,106 @@ L.Control.Select = L.Control.extend({
     onSelect: item => {}
   },
 
+  initialize(options) {
+    this.menus = [];
+    L.Util.setOptions(this, options);
+    const opts = this.options;
+
+    this.options.items.forEach(item => {
+      if (!item.label) {
+        item.label = item.value;
+      }
+    });
+
+    if (opts.multi) {
+      opts.selectedDefault =
+        opts.selectedDefault instanceof Array ? opts.selectedDefault : [];
+    } else {
+      opts.selectedDefault =
+        opts.selectedDefault ||
+        (opts.items instanceof Array && opts.items.length > 0
+          ? opts.items[0].value
+          : false);
+    }
+
+    console.log(opts.selectedDefault);
+
+    this.state = {
+      selected: opts.selectedDefault, // false || multi ? {value} : [{value}]
+      open: false // false || 'top' || {value}
+    };
+
+    // assigning parents to items
+    const assignParent = item => {
+      if (this._isGroup(item)) {
+        item.items.map(item2 => {
+          item2.parent = item.value;
+          assignParent(item2);
+        });
+      }
+    };
+
+    this.options.items.map(item => {
+      item.parent = "top";
+      assignParent(item);
+    });
+
+    // assigning children to items
+    const getChildren = item => {
+      let children = [];
+      if (this._isGroup(item)) {
+        item.items.map(item2 => {
+          children.push(item2.value);
+          children = children.concat(getChildren(item2));
+        });
+      }
+      return children;
+    };
+
+    const assignChildrens = item => {
+      item.children = getChildren(item);
+
+      if (this._isGroup(item)) {
+        item.items.map(item2 => {
+          assignChildrens(item2);
+        });
+      }
+    };
+
+    this.options.items.map(item => {
+      assignChildrens(item);
+    });
+  },
+
+  onAdd(map) {
+    this.map = map;
+    const opts = this.options;
+
+    this.container = L.DomUtil.create(
+      "div",
+      "leaflet-control leaflet-bar leaflet-control-select"
+    );
+    this.container.setAttribute("id", opts.id);
+
+    const icon = L.DomUtil.create(
+      "a",
+      "leaflet-control-button ",
+      this.container
+    );
+    icon.innerHTML = opts.iconMain;
+
+    map.on("click", this._hideMenu, this);
+
+    L.DomEvent.on(icon, "click", L.DomEvent.stop);
+    L.DomEvent.on(icon, "click", this._iconClicked, this);
+
+    L.DomEvent.disableClickPropagation(this.container);
+    L.DomEvent.disableScrollPropagation(this.container);
+
+    this.render();
+    return this.container;
+  },
+
   _emit(action, data) {
     const newState = {};
 
@@ -142,92 +242,6 @@ L.Control.Select = L.Control.extend({
     }
   },
 
-  initialize(options) {
-    this.menus = [];
-    L.Util.setOptions(this, options);
-    const opts = this.options;
-
-    if (opts.multi) {
-      opts.selectedDefault =
-        opts.selectedDefault instanceof Array ? opts.selectedDefault : [];
-    }
-
-    this.state = {
-      selected: opts.selectedDefault, // false || {value}multi
-      open: false // false || 'top' || {value}
-    };
-
-    // assigning parents to items
-    const assignParent = item => {
-      if (this._isGroup(item)) {
-        item.items.map(item2 => {
-          item2.parent = item.value;
-          assignParent(item2);
-        });
-      }
-    };
-
-    this.options.items.map(item => {
-      item.parent = "top";
-      assignParent(item);
-    });
-
-    // assigning children to items
-    const getChildren = item => {
-      let children = [];
-      if (this._isGroup(item)) {
-        item.items.map(item2 => {
-          children.push(item2.value);
-          children = children.concat(getChildren(item2));
-        });
-      }
-      return children;
-    };
-
-    const assignChildrens = item => {
-      item.children = getChildren(item);
-
-      if (this._isGroup(item)) {
-        item.items.map(item2 => {
-          assignChildrens(item2);
-        });
-      }
-    };
-
-    this.options.items.map(item => {
-      assignChildrens(item);
-    });
-  },
-
-  onAdd(map) {
-    this.map = map;
-    const opts = this.options;
-
-    this.container = L.DomUtil.create(
-      "div",
-      "leaflet-control leaflet-bar leaflet-control-select"
-    );
-    this.container.setAttribute("id", opts.id);
-
-    const icon = L.DomUtil.create(
-      "a",
-      "leaflet-control-button ",
-      this.container
-    );
-    icon.innerHTML = opts.iconMain;
-
-    map.on("click", this._hideMenu, this);
-
-    L.DomEvent.on(icon, "click", L.DomEvent.stop);
-    L.DomEvent.on(icon, "click", this._iconClicked, this);
-
-    L.DomEvent.disableClickPropagation(this.container);
-    L.DomEvent.disableScrollPropagation(this.container);
-
-    this.render();
-    return this.container;
-  },
-
   _renderRadioIcon(selected, contentDiv) {
     const radio = L.DomUtil.create("span", "radio icon", contentDiv);
 
@@ -246,7 +260,6 @@ L.Control.Select = L.Control.extend({
 
   _renderItem(item, menu) {
     const selected = this._isSelected(item);
-    console.log("rendering item", item, menu);
 
     const p = L.DomUtil.create("div", "leaflet-control-select-menu-line", menu);
     const pContent = L.DomUtil.create(
