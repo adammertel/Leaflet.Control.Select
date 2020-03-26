@@ -11,7 +11,7 @@ To create a menu-like component that can be implemented as a native leaflet cont
 
 ## Demo
 
-Storybook implemented ()
+See [storybook](https://adammertel.github.io/Leaflet.Control.Select) hosted on github.io
 
 ## Screenshots
 
@@ -59,7 +59,7 @@ L.control
 
 #### **items** (default `[]`)
 
-the content of menu, a collection of objects with **label** and **value** keys (if no labels are provided, values will be used as labels)
+- the content of menu, a collection of objects with **label** and **value** keys (if no labels are provided, values will be used as labels)
 
 simple items example:
 
@@ -107,67 +107,72 @@ nested items example:
 
 #### **multi** (default `false`)
 
-**true** possible to choose more items at the same time (radio / checkbox mode)
+- **true** possible to choose more items at the same time (radio / checkbox mode)
 
 #### **selectedDefault** (default `false`)
 
-value or list of values to be selected at the initialization
+- value or list of values to be selected at the initialization
 
 ### DOM
 
 #### **id** (default `""`)
 
-id for the wrapper div element
+- id for the wrapper div element
 
 #### **additionalClass** (default `""`)
 
-additional class of the wrapper div element
+- additional class of the wrapper div element
 
 ### icons
 
 #### **iconMain** (default `"≡"`)
 
-icon for the control button
+- icon for the control button
 
 #### **iconChecked** (default `"◉"`)
 
-icon for checked item
+- icon for checked item
 
 #### **iconUnchecked** (default `"ⵔ"`)
 
-icon for unchecked item
+- icon for unchecked item
 
 #### **iconGroupChecked** (default `"▶"`)
 
-icon for checked group (a group with a checked item)
+- icon for checked group (a group with a checked item)
 
 #### **iconGroupUnchecked** (default `"⊳"`)
 
-icon for unchecked group (a group without a checked item)
+- icon for unchecked group (a group without a checked item)
 
 ### Events
 
 #### **onOpen()** (default `function(){}`)
 
-function emmited after the menu is open
+- function emmited after the menu is open
 
 #### **onClose()** (default `function(){}`)
 
-function emmited after the menu is closed
+- function emmited after the menu is closed
 
 #### **onSelect(item)** (default `function(item){}`)
 
-function emmited after an item is selected, returns the selected item
+- function emmited after an item is selected, returns the selected item
 
 #### **onGroupOpen(group item)** (default `function(item){}`)
 
-function emmited after the group is clicked, returns the group item
+- function emmited after the group is clicked, returns the group item
 
 ## Methods
 
-#### **close**
+#### **close()**
 
-closes the menu
+- closes the menu
+
+## TESTS
+
+- test are done with [jest](https://jestjs.io/) and [@storybook/addon-storyshots](https://www.npmjs.com/package/@storybook/addon-storyshots) (checking whether it is possible to render all stories from storybook)
+- run tests with `npm run test` or `npm run test-update` to update snapshots
 
 ## TODO
 
