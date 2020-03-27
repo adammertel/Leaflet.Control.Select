@@ -12,6 +12,10 @@
   },
   "author": "",
   "license": "ISC",
+  "files": [
+    "dist",
+    "src"
+  ],
   "bugs": {
     "url": "https://github.com/adammertel/Leaflet.Control.Select/issues"
   },
