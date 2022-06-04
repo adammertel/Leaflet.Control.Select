@@ -150,12 +150,15 @@ This example dynamically switches the className of the Select element by clickin
       wrapperDiv.appendChild(buttonsDiv);
       wrapperDiv.appendChild(mapDiv);
       buttonDiv1.onclick = () => {
+        console.log(`setting classname .blue-control`);
         reloadSelect("blue-control");
       };
       buttonDiv2.onclick = () => {
+        console.log(`setting classname .red-control`);
         reloadSelect("red-control");
       };
       buttonDiv3.onclick = () => {
+        console.log(`setting classname .green-control`);
         reloadSelect("green-control");
       };
       return wrapperDiv;
