@@ -98,7 +98,9 @@ L.Control.Select = L.Control.extend({
 
     this.container = L.DomUtil.create(
       "div",
-      "leaflet-control leaflet-bar leaflet-control-select"
+      `leaflet-control leaflet-bar leaflet-control-select ${
+        this.options.additionalClass || ""
+      }`
     );
     this.container.setAttribute("id", opts.id);
 

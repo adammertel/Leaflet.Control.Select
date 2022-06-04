@@ -1,13 +1,15 @@
 module.exports = {
   verbose: true,
-  testMatch: ["**/*.test.(js|ts|tsx|mdx)"],
+  //testMatch: ["**/*.test.js"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "css"],
   transform: {
     "^.+\\.mdx?$": "@storybook/addon-docs/jest-transform-mdx",
-    "^.+\\.([j|t]sx?)$": "<rootDir>/node_modules/babel-jest"
+    //    "^.+\\.([j|t]sx?)$": "<rootDir>/node_modules/babel-jest",
+    //"^.+\\.(ts|tsx)?$": "ts-jest",
+    "^.+\\.(js)$": "babel-jest",
   },
   moduleNameMapper: {
-    "\\.(css|less|scss)$": "identity-obj-proxy"
+    "\\.(css|less|scss)$": "identity-obj-proxy",
   },
-  transformIgnorePatterns: ["node_modules/(?!react-syntax-highlighter)"]
+  modulePathIgnorePatterns: ["/node_modules/@storybook"],
 };

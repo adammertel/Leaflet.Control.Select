@@ -1,11 +1,10 @@
 {
   "name": "leaflet.control.select",
   "version": "0.2.3",
-  "description": "",
+  "target": "esnext",
+  "module": "commonjs",
+  "description": "Leaflet.js plugin to create select-ish control",
   "main": "index.js",
-  "directories": {
-    "example": "examples"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adammertel/Leaflet.Control.Select.git"
@@ -31,7 +30,7 @@
     "onchange-js": "onchange src/**/*.js -- npm run build",
     "onchange-css": "onchange src/**/*.scss -- npm run sass",
     "sass": "node-sass src/leaflet.control.select.scss > dist/leaflet.control.select.css",
-    "build": "run-s test sass babel minify banners",
+    "build": "run-s sass babel minify banners",
     "build-storybook": "build-storybook -c .storybook -o docs",
     "start": "run-p storybook onchange-css onchange-js build",
     "test": "jest",
@@ -44,23 +43,27 @@
     "@babel/preset-react": "^7.10.4",
     "@fortawesome/fontawesome-free": "^5.14.0",
     "@storybook/addon-docs": "^6.4.22",
-    "@storybook/addon-storyshots": "^6.4.22",
+    "@storybook/addon-storyshots": "^6.5.6",
     "@storybook/html": "^6.4.22",
     "@turf/random": "^6.0.2",
-    "babel-jest": "^26.2.2",
+    "babel-jest": "^28.1.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-minify-mangle-names": "^0.5.0",
     "babel-plugin-require-context-hook": "^1.0.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "concat-cli": "^4.0.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^25.1.0",
+    "jest": "^28.1.0",
     "jshint": "^2.12.0",
     "node-sass": "^7.0.0",
     "npm-run-all": "^4.1.5",
-    "onchange": "^7.0.2"
+    "onchange": "^7.0.2",
+    "ts-jest": "^28.0.4"
   },
   "peerDependencies": {
     "leaflet": "^1.8.0"
+  },
+  "dependencies": {
+    "@storybook/react": "^6.4.22"
   }
 }
