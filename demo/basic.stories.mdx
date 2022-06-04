@@ -19,7 +19,7 @@ var items = [
   { label: "half-sunny", value: "🌤" },
   { label: "half-raining", value: "🌦" },
   { label: "raining", value: "🌨" },
-  { label: "tornado", value: "🌪" }
+  { label: "tornado", value: "🌪" },
 ];
 ```
 
@@ -31,9 +31,9 @@ L.control
     position: "topleft",
     selectedDefault: defaultValue,
     items: items,
-    onSelect: function(newItemValue) {
+    onSelect: function (newItemValue) {
       drawMarker(newItemValue);
-    }
+    },
   })
   .addTo(map);
 ```
@@ -41,12 +41,12 @@ L.control
 **draw marker function:**
 
 ```js
-var drawMarker = newItemValue => {
+var drawMarker = (newItemValue) => {
   marker.setIcon(
     L.divIcon({
       html: '<div class="icon">' + newItemValue + "</div>",
       className: "marker-icon",
-      iconSize: [40, 40]
+      iconSize: [40, 40],
     })
   );
 };
@@ -70,21 +70,21 @@ var drawMarker = newItemValue => {
           { label: "half-sunny", value: "🌤" },
           { label: "half-raining", value: "🌦" },
           { label: "raining", value: "🌨" },
-          { label: "tornado", value: "🌪" }
+          { label: "tornado", value: "🌪" },
         ];
-        var drawMarker = newItemValue => {
+        var drawMarker = (newItemValue) => {
           marker.setIcon(
             L.divIcon({
               html: '<div class="icon">' + newItemValue + "</div>",
               className: "marker-icon",
-              iconSize: [40, 40]
+              iconSize: [40, 40],
             })
           );
         };
         map = L.map("map", { maxZoom: 14 }).setView(mapPosition, mapZoom);
         L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
           attribution:
-            '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(map);
         var defaultValue = items[0].value;
         L.control
@@ -92,9 +92,9 @@ var drawMarker = newItemValue => {
             position: "topleft",
             selectedDefault: defaultValue,
             items: items,
-            onSelect: function(newItemValue) {
+            onSelect: function (newItemValue) {
               drawMarker(newItemValue);
-            }
+            },
           })
           .addTo(map);
         marker = L.marker([49, 18]).addTo(map);

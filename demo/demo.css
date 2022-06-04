@@ -26,3 +26,43 @@
   line-height: 40px;
   text-align: center;
 }
+
+.custom-control a{
+  color: white
+}
+
+.custom-control .leaflet-control-select-menu{
+  color: white;
+  font-weight: bold;
+}
+
+.blue-control a{
+  background-color: #a6cee3;
+}
+.blue-control a:hover {
+  background-color: #1f78b4;
+}
+.blue-control .leaflet-control-select-menu {
+  background-color: #1f78b4;
+}
+
+.red-control a{
+  background-color: #fb9a99;
+}
+.red-control a:hover {
+  background-color: #e31a1c
+}
+.red-control .leaflet-control-select-menu {
+  background-color: #e31a1c;
+}
+
+.green-control a{
+  background-color: #b2df8a;
+}
+.green-control a:hover {
+  background-color: #33a02c
+}
+.green-control .leaflet-control-select-menu {
+  background-color: #33a02c;
+}
+

@@ -5,8 +5,8 @@ module.exports = {
       name: "@storybook/addon-docs",
       options: {
         babelOptions: {},
-        sourceLoaderOptions: null
-      }
-    }
-  ]
+        sourceLoaderOptions: null,
+      },
+    },
+  ],
 };
