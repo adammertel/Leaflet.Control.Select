@@ -17,8 +17,8 @@ L.Control.Select = L.Control.extend({
 
     onOpen: () => {},
     onClose: () => {},
-    onGroupOpen: itemGroup => {},
-    onSelect: item => {}
+    onGroupOpen: (itemGroup) => {},
+    onSelect: (item) => {},
   },
 
   initialize(options) {
@@ -26,7 +26,7 @@ L.Control.Select = L.Control.extend({
     L.Util.setOptions(this, options);
     const opts = this.options;
 
-    this.options.items.forEach(item => {
+    this.options.items.forEach((item) => {
       if (!item.label) {
         item.label = item.value;
       }
@@ -47,29 +47,29 @@ L.Control.Select = L.Control.extend({
 
     this.state = {
       selected: opts.selectedDefault, // false || multi ? {value} : [{value}]
-      open: false // false || 'top' || {value}
+      open: false, // false || 'top' || {value}
     };
 
     // assigning parents to items
-    const assignParent = item => {
+    const assignParent = (item) => {
       if (this._isGroup(item)) {
-        item.items.map(item2 => {
+        item.items.map((item2) => {
           item2.parent = item.value;
           assignParent(item2);
         });
       }
     };
 
-    this.options.items.map(item => {
+    this.options.items.map((item) => {
       item.parent = "top";
       assignParent(item);
     });
 
     // assigning children to items
-    const getChildren = item => {
+    const getChildren = (item) => {
       let children = [];
       if (this._isGroup(item)) {
-        item.items.map(item2 => {
+        item.items.map((item2) => {
           children.push(item2.value);
           children = children.concat(getChildren(item2));
         });
@@ -77,17 +77,17 @@ L.Control.Select = L.Control.extend({
       return children;
     };
 
-    const assignChildrens = item => {
+    const assignChildrens = (item) => {
       item.children = getChildren(item);
 
       if (this._isGroup(item)) {
-        item.items.map(item2 => {
+        item.items.map((item2) => {
           assignChildrens(item2);
         });
       }
     };
 
-    this.options.items.map(item => {
+    this.options.items.map((item) => {
       assignChildrens(item);
     });
   },
@@ -131,7 +131,7 @@ L.Control.Select = L.Control.extend({
 
           if (this.state.selected.includes(data.item.value)) {
             newState.selected = newState.selected.filter(
-              s => s !== data.item.value
+              (s) => s !== data.item.value
             );
           } else {
             newState.selected.push(data.item.value);
@@ -205,7 +205,7 @@ L.Control.Select = L.Control.extend({
       if (this._isGroup(item)) {
         if ("children" in item) {
           return this.options.multi
-            ? sel.find(s => item.children.includes(s))
+            ? sel.find((s) => item.children.includes(s))
             : item.children.includes(sel);
         } else {
           return false;
@@ -283,7 +283,7 @@ L.Control.Select = L.Control.extend({
       this._renderRadioIcon(selected, pContent);
     }
 
-    L.DomEvent.addListener(pContent, "click", e => {
+    L.DomEvent.addListener(pContent, "click", (e) => {
       this._itemClicked(item);
     });
 
@@ -297,13 +297,13 @@ L.Control.Select = L.Control.extend({
       parent
     );
     this.menus.push(menu);
-    items.map(item => {
+    items.map((item) => {
       this._renderItem(item, menu);
     });
   },
 
   _clearMenus() {
-    this.menus.map(menu => menu.remove());
+    this.menus.map((menu) => menu.remove());
     this.meus = [];
   },
 
@@ -317,7 +317,7 @@ L.Control.Select = L.Control.extend({
   /* public methods */
   close() {
     this._hideMenu();
-  }
+  },
 });
 
-L.control.select = options => new L.Control.Select(options);
+L.control.select = (options) => new L.Control.Select(options);
