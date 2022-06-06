@@ -43,8 +43,6 @@ L.Control.Select = L.Control.extend({
           : false);
     }
 
-    console.log(opts.selectedDefault);
-
     this.state = {
       selected: opts.selectedDefault, // false || multi ? {value} : [{value}]
       open: false, // false || 'top' || {value}
@@ -182,7 +180,6 @@ L.Control.Select = L.Control.extend({
       newState.open &&
       newState.open !== this.state.open
     ) {
-      console.log("group open");
       this.options.onGroupOpen(newState.open);
     }
 

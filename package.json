@@ -21,7 +21,6 @@
   "homepage": "https://github.com/adammertel/Leaflet.Control.Select#readme",
   "scripts": {
     "jshint": "jshint src",
-    "storybook": "start-storybook --docs",
     "banners": "run-s banner-js-src banner-js",
     "banner-js-src": "concat-cli -f banner dist/leaflet.control.select.src.js -o dist/leaflet.control.select.src.js",
     "banner-js": "concat-cli -f banner dist/leaflet.control.select.js -o dist/leaflet.control.select.js",
@@ -30,40 +29,25 @@
     "onchange-js": "onchange src/**/*.js -- npm run build",
     "onchange-css": "onchange src/**/*.scss -- npm run sass",
     "sass": "node-sass src/leaflet.control.select.scss > dist/leaflet.control.select.css",
-    "build": "run-s sass babel minify banners",
-    "build-storybook": "build-storybook -c .storybook -o docs",
-    "start": "run-p storybook onchange-css onchange-js build",
-    "test": "jest",
-    "test-update": "jest --clearCache && jest --updateSnapshot --modulePaths=src"
+    "build": "run-s sass babel minify banners"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",
     "@babel/preset-env": "^7.11.0",
-    "@babel/preset-react": "^7.10.4",
     "@fortawesome/fontawesome-free": "^5.14.0",
-    "@storybook/addon-docs": "^6.4.22",
-    "@storybook/addon-storyshots": "^6.5.6",
-    "@storybook/html": "^6.4.22",
     "@turf/random": "^6.0.2",
-    "babel-jest": "^28.1.0",
-    "babel-loader": "^8.1.0",
     "babel-plugin-minify-mangle-names": "^0.5.0",
     "babel-plugin-require-context-hook": "^1.0.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "concat-cli": "^4.0.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^28.1.0",
     "jshint": "^2.12.0",
-    "node-sass": "^7.0.0",
+    "node-sass": "^7.0.1",
     "npm-run-all": "^4.1.5",
-    "onchange": "^7.0.2",
-    "ts-jest": "^28.0.4"
+    "onchange": "^7.0.2"
   },
   "peerDependencies": {
     "leaflet": "^1.8.0"
-  },
-  "dependencies": {
-    "@storybook/react": "^6.4.22"
   }
 }

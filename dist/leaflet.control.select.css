@@ -32,6 +32,7 @@
       background-color: grey;
       color: white; }
     .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line .leaflet-control-select-menu-line-content {
+      font-size: 1rem;
       width: 100%; }
       .leaflet-control-select .leaflet-control-select-menu .leaflet-control-select-menu-line .leaflet-control-select-menu-line-content .icon {
         position: absolute;

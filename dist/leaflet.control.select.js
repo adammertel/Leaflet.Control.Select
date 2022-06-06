@@ -1,6 +1,6 @@
 /*
-  leaflet control list plugin
-  https://github.com/adammertel/Leaflet.Control.List
+  Leaflet.Control.Select plugin
+  https://github.com/adammertel/Leaflet.Control.Select
   Adam Mertel | univie
 */
 "use strict";L.Control.Select=L.Control.extend({options:{position:"topright",iconMain:"\u2261",iconChecked:"\u25C9",// "☑"

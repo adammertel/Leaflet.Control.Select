@@ -1,6 +1,6 @@
 /*
-  leaflet control list plugin
-  https://github.com/adammertel/Leaflet.Control.List
+  Leaflet.Control.Select plugin
+  https://github.com/adammertel/Leaflet.Control.Select
   Adam Mertel | univie
 */
 "use strict";
@@ -44,7 +44,6 @@ L.Control.Select = L.Control.extend({
       opts.selectedDefault = opts.selectedDefault || (opts.items instanceof Array && opts.items.length > 0 ? opts.items[0].value : false);
     }
 
-    console.log(opts.selectedDefault);
     this.state = {
       selected: opts.selectedDefault,
       // false || multi ? {value} : [{value}]
@@ -158,7 +157,6 @@ L.Control.Select = L.Control.extend({
     }
 
     if (this.options.onGroupOpen && newState.open && newState.open !== this.state.open) {
-      console.log("group open");
       this.options.onGroupOpen(newState.open);
     }
 

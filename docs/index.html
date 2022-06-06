@@ -1,59 +1,1044 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><title>Webpack App</title><meta name="viewport" content="width=device-width,initial-scale=1"/><style>html, body {
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
+<!DOCTYPE html>
 
-  * {
-    box-sizing: border-box;
-  }</style><script>/* globals window */
-  /* eslint-disable no-underscore-dangle */
-  try {
-    if (window.top !== window) {
-      window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.top.__REACT_DEVTOOLS_GLOBAL_HOOK__;
-    }
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.warn('unable to connect to top frame for connecting dev tools');
-  }
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  window.onerror = function onerror(message, source, line, column, err) {
-    if (window.CONFIG_TYPE !== 'DEVELOPMENT') return;
-    // eslint-disable-next-line no-var, vars-on-top
-    var xhr = new window.XMLHttpRequest();
-    xhr.open('POST', '/runtime-error');
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xhr.send(
-      JSON.stringify({
-        /* eslint-disable object-shorthand */
-        message: message,
-        source: source,
-        line: line,
-        column: column,
-        error: err && { message: err.message, name: err.name, stack: err.stack },
-        origin: 'manager',
-        /* eslint-enable object-shorthand */
-      })
+    <title>Leaflet.Control.Select</title>
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="website" />
+
+    <meta
+      property="og:description"
+      content="A simple HTML5 Template for new projects."
+    />
+    <meta property="og:image" content="image.png" />
+
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Leaflet -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.8.0/leaflet.min.css"
+      integrity="sha512-oIQ0EBio8LJupRpgmDsIsvm0Fsr6c3XNHLB7at5xb+Cf6eQuCX9xuX8XXGRIcokNgdqL1ms7nqbQ6ryXMGxXpg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.8.0/leaflet-src.js"
+      integrity="sha512-Uj3ED3j6dg1xxMgtj4kF4W60Tc1HGboQ5gweT+hG1z8sBIc0ncFuoh3qV5XZF8ZqlEGlV9mt9E6MZhLN3zFDJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- Leaflet.Control.Select -->
+    <link rel="stylesheet" href="../dist/leaflet.control.select.css" />
+    <script src="../dist/leaflet.control.select.js"></script>
+
+    <!-- Google Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
+    />
+
+    <!-- CSS Reset -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
+    />
+
+    <!-- Milligram CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
+    />
+
+    <!-- Font Awesome CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Example css -->
+    <link rel="stylesheet" href="./demo.css" />
+  </head>
+
+  <body>
+    <script>
+      // basic usage example
+      var mapZoom = 11;
+      var mapPosition = [49, 18];
+
+      var tileLayer = () =>
+        L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        });
+
+      const loadMap1 = () => {
+        var items = [
+          { label: "sunny", value: "☼" },
+          { label: "half-sunny", value: "🌤" },
+          { label: "half-raining", value: "🌦" },
+          { label: "raining", value: "🌨" },
+          { label: "tornado", value: "🌪" },
+        ];
+        var map = L.map("map-basic", { maxZoom: 14 }).setView(
+          mapPosition,
+          mapZoom
+        );
+        tileLayer().addTo(map);
+
+        L.control
+          .select({
+            position: "topleft",
+            selectedDefault: items[0].value,
+            items: items,
+            onSelect: function (newItemValue) {
+              drawMarker(newItemValue);
+            },
+          })
+          .addTo(map);
+        var marker = L.marker([49, 18]).addTo(map);
+        var drawMarker = (newItemValue) => {
+          marker.setIcon(
+            L.divIcon({
+              html: '<div class="icon">' + newItemValue + "</div>",
+              className: "marker-icon",
+              iconSize: [40, 40],
+            })
+          );
+        };
+        drawMarker(items[0].value);
+      };
+
+      const loadMap2 = () => {
+        document.getElementById("button-blue-control").onclick = () => {
+          reloadSelect("blue-control");
+        };
+        document.getElementById("button-red-control").onclick = () => {
+          reloadSelect("red-control");
+        };
+        document.getElementById("button-green-control").onclick = () => {
+          reloadSelect("green-control");
+        };
+        var map = L.map("map-additional", { maxZoom: 14 }).setView(
+          mapPosition,
+          mapZoom
+        );
+        tileLayer().addTo(map);
+        let selectControl = false;
+        const reloadSelect = (className) => {
+          if (selectControl) {
+            selectControl.remove();
+          }
+          selectControl = L.control
+            .select({
+              position: "topleft",
+              additionalClass: `${className} custom-control`,
+              iconMain: "☰",
+              items: [
+                { value: "item1" },
+                { value: "item2" },
+                { value: "item3" },
+                { value: "item4" },
+                { value: "item5" },
+              ],
+            })
+            .addTo(map);
+        };
+        reloadSelect("blue-control");
+      };
+
+      const loadMap3 = () => {
+        var map = L.map("map-groups", { maxZoom: 14 }).setView(
+          mapPosition,
+          mapZoom
+        );
+        tileLayer().addTo(map);
+
+        var places = [
+          {
+            label: "towns",
+            value: "town group",
+            items: [
+              { label: "Nová Dubnica", value: [[48.936649, 18.141319], 16] },
+              {
+                label: "Dubnica nad Váhom",
+                value: [[48.959672, 18.170311], 16],
+              },
+              { label: "Nemšová", value: [[48.965817, 18.121432], 16] },
+            ],
+          },
+          {
+            label: "villages",
+            value: "villages group",
+            items: [
+              {
+                label: "north",
+                value: "north-villages-group",
+                items: [
+                  { label: "Bolešov", value: [[48.987006, 18.15625], 16] },
+                  { label: "Borčice", value: [[48.979288, 18.137024], 16] },
+                  { label: "Kameničany", value: [[48.991538, 18.170283], 16] },
+                ],
+              },
+              {
+                label: "west",
+                value: "west-villages-group",
+                items: [
+                  { label: "Dolná Súča", value: [[48.957633, 18.031684], 16] },
+                  {
+                    label: "Skalka nad Váhom",
+                    value: [[48.92652, 18.071181], 16],
+                  },
+                ],
+              },
+              {
+                label: "south",
+                value: "south-villages-group",
+                items: [
+                  { label: "Kolačín", value: [[48.936836, 18.16759], 16] },
+                  {
+                    label: "Trenčianska Teplá",
+                    value: [[48.93461, 18.120773], 16],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            label: "region",
+            value: [[48.945548, 18.12225], 13],
+          },
+        ];
+        L.control
+          .select({
+            position: "topleft",
+            id: "image-selector",
+            selectedDefault: false,
+            items: places,
+            iconMain: "🏘",
+            onSelect: function (newPosition) {
+              recenter(newPosition[0], newPosition[1]);
+            },
+            onGroupOpen: function (groupOpened) {
+              // console.log(groupOpened)
+            },
+          })
+          .addTo(map);
+        var recenter = function (newCenter, newZoom) {
+          map.setView(newCenter, newZoom);
+        };
+      };
+
+      const loadMap4 = () => {
+        var map = L.map("map-multiple").setView(mapPosition, 9);
+        tileLayer().addTo(map);
+
+        var colors = ["blue", "red", "green"];
+        var styleFeature = function (f) {
+          return {
+            color: f.properties.color,
+          };
+        };
+        var items = [
+          {
+            label: "🍺",
+            value: "beer",
+            items: [],
+          },
+          {
+            label: "🍷",
+            value: "wine",
+            items: [],
+          },
+        ];
+        colors.map(function (color) {
+          items[0].items.push({
+            label: color,
+            value: "beer-" + color,
+          });
+          items[1].items.push({
+            label: color,
+            value: "wine-" + color,
+          });
+        });
+
+        const randomCoordinate = () => {
+          return [Math.random() + 17.6, Math.random() + 48.5];
+        };
+        var beers = {
+          features: [...Array(15).keys()].map((i) => {
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            return {
+              type: "Feature",
+              properties: {
+                type: "wine-" + color,
+                color: color,
+              },
+              geometry: {
+                type: "Point",
+                coordinates: randomCoordinate(),
+              },
+            };
+          }),
+        };
+        var wines = {
+          features: [...Array(15).keys()].map((i) => {
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            return {
+              type: "Feature",
+              properties: {
+                type: "beer-" + color,
+                color: color,
+              },
+              geometry: {
+                type: "Point",
+                coordinates: randomCoordinate(),
+              },
+            };
+          }),
+        };
+
+        var actualSelection = [];
+        var beerLayer = false;
+        var wineLayer = false;
+
+        var redrawMap = function () {
+          beerLayer && beerLayer.clearLayers();
+          wineLayer && wineLayer.clearLayers();
+          beerLayer = L.geoJSON(beers, {
+            style: styleFeature,
+            pointToLayer: function (f, ll) {
+              return featureToLayer(f, ll, "🍺");
+            },
+            filter: filterFeatures,
+          }).addTo(map);
+          wineLayer = L.geoJSON(wines, {
+            style: styleFeature,
+            pointToLayer: function (f, ll) {
+              return featureToLayer(f, ll, "🍷");
+            },
+            filter: filterFeatures,
+          }).addTo(map);
+        };
+
+        var filterFeatures = function (f) {
+          return actualSelection.indexOf(f.properties.type) > -1;
+        };
+
+        var featureToLayer = function (f, ll, icon) {
+          return L.marker(ll, {
+            icon: L.divIcon({
+              className: "beer-wine-icon",
+              html:
+                '<div class="icon" style="background-color: ' +
+                f.properties.color +
+                ' ;font-size: 20px" >' +
+                icon +
+                "</div>",
+              iconSize: [20, 20],
+            }),
+          });
+        };
+
+        L.control
+          .select({
+            position: "topleft",
+            id: "image-selector",
+            selectedDefault: false,
+            items: items,
+            multi: true,
+            iconChecked: "☑",
+            iconUnchecked: "❒",
+            onSelect: function (selection) {
+              console.log(`selected ${selection}`);
+              actualSelection = selection;
+              redrawMap(selection);
+            },
+            onGroupOpen: function (groupOpened) {
+              console.log(`group openend ${groupOpened}`);
+            },
+          })
+          .addTo(map);
+      };
+
+      const loadMap5 = () => {
+        var map = L.map("map-iconsutf", { maxZoom: 14 }).setView(
+          mapPosition,
+          mapZoom
+        );
+        tileLayer().addTo(map);
+
+        const icons = ["☼", "🌤", "🌦", "🌨", "🌪"];
+
+        const selectDiv = document.getElementById("map5-select");
+        icons.forEach((icon) => {
+          const optionDiv = document.createElement("option");
+          optionDiv.value = icon;
+          optionDiv.innerHTML = icon;
+          selectDiv.appendChild(optionDiv);
+        });
+        selectDiv.onchange = (e) => {
+          reloadSelect(e.target.value);
+        };
+
+        let selectControl = false;
+        const reloadSelect = (icon) => {
+          if (selectControl) {
+            selectControl.remove();
+          }
+          selectControl = L.control
+            .select({
+              position: "topleft",
+              iconMain: icon,
+              items: [
+                { value: "item1" },
+                { value: "item2" },
+                { value: "item3" },
+                { value: "item4" },
+                { value: "item5" },
+              ],
+            })
+            .addTo(map);
+        };
+        reloadSelect(icons[0]);
+      };
+
+      const loadMap6 = () => {
+        var map = L.map("map-iconsfa", { maxZoom: 14 }).setView(mapPosition, 5);
+        tileLayer().addTo(map);
+
+        let marker;
+        let markers = [];
+        const items = [
+          {
+            id: "bolt",
+            icon: "fa-bolt",
+            active: true,
+            places: [
+              [53, 13.425],
+              [53.63, 15.18],
+            ],
+          },
+          {
+            id: "wind",
+            icon: "fa-wind",
+            active: true,
+            places: [
+              [51.7, 14.2],
+              [53.6, 11.4],
+              [50.7, 11.8],
+              [49.7, 14.4],
+            ],
+          },
+          {
+            id: "cloud",
+            icon: "fa-cloud",
+            active: true,
+            places: [
+              [48.4, 11.6],
+              [49.4, 12],
+              [48.3, 13.2],
+              [48.5, 21.5],
+              [53.5, 17.1],
+            ],
+          },
+          {
+            id: "cloud-sun",
+            icon: "fa-cloud-sun",
+            active: true,
+            places: [
+              [50.2, 17.8],
+              [48.3, 16.6],
+              [48.5, 19.2],
+              [49.8, 22.1],
+              [51.9, 16.1],
+            ],
+          },
+          {
+            id: "sun",
+            icon: "fa-sun",
+            active: true,
+            places: [
+              [53.4, 20.1],
+              [51.9, 20.1],
+              [23.2, 22.6],
+            ],
+          },
+        ];
+        // method for refreshing map content
+        var redrawMarkers = () => {
+          markers.forEach((marker) => {
+            map.removeLayer(marker);
+          });
+          markers = [];
+          items
+            .filter((s) => s.active)
+            .forEach((group) => {
+              group.places.forEach((place) => {
+                const marker = L.marker(place);
+                marker.setIcon(
+                  L.divIcon({
+                    html:
+                      '<div class="icon"><i class="fa ' +
+                      group.icon +
+                      '" />' +
+                      "</div>",
+                    className: "marker-icon",
+                    iconSize: [40, 40],
+                  })
+                );
+                marker.addTo(map);
+                markers.push(marker);
+              });
+            });
+        };
+        L.control
+          .select({
+            position: "topleft",
+            selectedDefault: items.map((i) => i.id),
+            multi: true,
+            iconChecked: '<i class="fa fa-square" />',
+            iconUnchecked: '<i class="far fa-square" />',
+            iconMain: '<i class="fa fa-layer-group" />',
+            items: items.map((item) => {
+              return {
+                label: '<i class="fa ' + item.icon + '" /> ' + item.id,
+                value: item.id,
+              };
+            }),
+            onSelect: function (selectedItemValues) {
+              items.forEach((item) => {
+                item.active = selectedItemValues.includes(item.id);
+              });
+              redrawMarkers();
+            },
+          })
+          .addTo(map);
+        redrawMarkers();
+      };
+
+      window.onload = (event) => {
+        console.log("onload");
+        loadMap1();
+        loadMap2();
+        loadMap3();
+        loadMap4();
+        loadMap5();
+        loadMap6();
+      };
+    </script>
+
+    <div class="container">
+      <h1>Leaflet.Control.Select</h1>
+      <h4>A leaflet.js library for creating a simple Select Control</h4>
+
+      <aside>
+        <nav>
+          <ul>
+            <li><a href="#basic">Basic Usage</a></li>
+            <li><a href="#additional">Additional class</a></li>
+            <li><a href="#groups">Groups</a></li>
+            <li><a href="#multiple">Multiples</a></li>
+            <li><a href="#icons-utf">Custom utf icons</a></li>
+            <li><a href="#icons-fa">Custom fontawesome icons</a></li>
+          </ul>
+        </nav>
+      </aside>
+    </div>
+
+    <div class="container" id="basic">
+      <h3>Basic Usage</h3>
+      <details>
+        <summary role="button">Code</summary>
+        <div>
+          <pre>
+            <code >
+var items = [
+    { label: "sunny", value: "☼" },
+    { label: "half-sunny", value: "🌤" },
+    { label: "half-raining", value: "🌦" },
+    { label: "raining", value: "🌨" },
+    { label: "tornado", value: "🌪" },
+];
+var drawMarker = (newItemValue) => {
+    marker.setIcon(
+    L.divIcon({
+        html: '<div class="icon">' + newItemValue + "</div>",
+        className: "marker-icon",
+        iconSize: [40, 40],
+    })
     );
-  };</script><style>#root[hidden],
-      #docs-root[hidden] {
-        display: none !important;
-      }</style></head><body><div id="root"></div><div id="docs-root"></div><script>window['CONFIG_TYPE'] = "PRODUCTION";
-          
-      
-          
-            window['LOGLEVEL'] = "info";
-          
-      
-          
-            window['FEATURES'] = {"postcss":true,"emotionAlias":true,"warnOnLegacyHierarchySeparator":true};
-          
-      
-          
-      
-          
-      
-          
-            window['DOCS_MODE'] = false;</script><script src="runtime~main.3e5555c429bde1f0674a.manager.bundle.js"></script><script src="vendors~main.626644284ffe80ba6a63.manager.bundle.js"></script><script src="main.137fa3930837853ea5fd.manager.bundle.js"></script></body></html>
+};
+map = L.map("map", { maxZoom: 14 }).setView(mapPosition, mapZoom);
+L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
+    attribution:
+    '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(map);
+var defaultValue = items[0].value;
+L.control
+    .select({
+    position: "topleft",
+    selectedDefault: defaultValue,
+    items: items,
+    onSelect: function (newItemValue) {
+        drawMarker(newItemValue);
+    },
+    })
+    .addTo(map);
+marker = L.marker([49, 18]).addTo(map);
+drawMarker(defaultValue);
+            </code>
+        </pre>
+        </div>
+      </details>
+      <div class="map" id="map-basic"></div>
+    </div>
+
+    <div class="container" id="additional">
+      <h3>Additional class</h3>
+
+      <details>
+        <summary role="button">Code</summary>
+        <div>
+          <pre><code>
+
+document.getElementById("button-blue-control").onclick = () => {
+  reloadSelect("blue-control");
+};
+document.getElementById("button-red-control").onclick = () => {
+  reloadSelect("red-control");
+};
+document.getElementById("button-green-control").onclick = () => {
+  reloadSelect("green-control");
+};
+var map = L.map("map-additional", { maxZoom: 14 }).setView(
+  mapPosition,
+  mapZoom
+);
+tileLayer().addTo(map);
+let selectControl = false;
+const reloadSelect = (className) => {
+  if (selectControl) {
+    selectControl.remove();
+  }
+  selectControl = L.control
+    .select({
+      position: "topleft",
+      additionalClass: `${className} custom-control`,
+      iconMain: "☰",
+      items: [
+        { value: "item1" },
+        { value: "item2" },
+        { value: "item3" },
+        { value: "item4" },
+        { value: "item5" },
+      ],
+    })
+    .addTo(map);
+};
+reloadSelect("blue-control");
+          </code></pre>
+        </div>
+      </details>
+
+      <button id="button-blue-control">blue control</button>
+      <button id="button-red-control">red control</button>
+      <button id="button-green-control">green control</button>
+      <div class="map" id="map-additional"></div>
+    </div>
+
+    <div class="container" id="groups">
+      <h3>Groups</h3>
+      <details>
+        <summary role="button">Code</summary>
+        <div>
+          <pre><code>
+
+var map = L.map("map-groups", { maxZoom: 14 }).setView(
+mapPosition,
+mapZoom
+);
+tileLayer().addTo(map);
+
+var places = [
+{
+  label: "towns",
+  value: "town group",
+  items: [
+    { label: "Nová Dubnica", value: [[48.936649, 18.141319], 16] },
+    {
+      label: "Dubnica nad Váhom",
+      value: [[48.959672, 18.170311], 16],
+    },
+    { label: "Nemšová", value: [[48.965817, 18.121432], 16] },
+  ],
+},
+{
+  label: "villages",
+  value: "villages group",
+  items: [
+    {
+      label: "north",
+      value: "north-villages-group",
+      items: [
+        { label: "Bolešov", value: [[48.987006, 18.15625], 16] },
+        { label: "Borčice", value: [[48.979288, 18.137024], 16] },
+        { label: "Kameničany", value: [[48.991538, 18.170283], 16] },
+      ],
+    },
+    {
+      label: "west",
+      value: "west-villages-group",
+      items: [
+        { label: "Dolná Súča", value: [[48.957633, 18.031684], 16] },
+        {
+          label: "Skalka nad Váhom",
+          value: [[48.92652, 18.071181], 16],
+        },
+      ],
+    },
+    {
+      label: "south",
+      value: "south-villages-group",
+      items: [
+        { label: "Kolačín", value: [[48.936836, 18.16759], 16] },
+        {
+          label: "Trenčianska Teplá",
+          value: [[48.93461, 18.120773], 16],
+        },
+      ],
+    },
+  ],
+},
+{
+  label: "region",
+  value: [[48.945548, 18.12225], 13],
+}];
+L.control
+  .select({
+    position: "topleft",
+    id: "image-selector",
+    selectedDefault: false,
+    items: places,
+    iconMain: "🏘",
+    onSelect: function (newPosition) {
+      recenter(newPosition[0], newPosition[1]);
+    },
+    onGroupOpen: function (groupOpened) {
+      // console.log(groupOpened)
+    },
+  })
+  .addTo(map);
+
+  var recenter = function (newCenter, newZoom) {
+    map.setView(newCenter, newZoom);
+  };
+          </code></pre>
+        </div>
+      </details>
+      <div class="map" id="map-groups"></div>
+    </div>
+
+    <div class="container" id="multiple">
+      <h3>Multiple</h3>
+      <details>
+        <summary role="button">Code</summary>
+        <div>
+          <pre><code>
+var map = L.map("map-multiple").setView(mapPosition, 9);
+tileLayer().addTo(map);
+
+var colors = ["blue", "red", "green"];
+var styleFeature = function (f) {
+  return {
+    color: f.properties.color,
+  };
+};
+var items = [
+  {
+    label: "🍺",
+    value: "beer",
+    items: [],
+  },
+  {
+    label: "🍷",
+    value: "wine",
+    items: [],
+  },
+];
+colors.map(function (color) {
+  items[0].items.push({
+    label: color,
+    value: "beer-" + color,
+  });
+  items[1].items.push({
+    label: color,
+    value: "wine-" + color,
+  });
+});
+
+const randomCoordinate = () => {
+  return [Math.random() + 17.6, Math.random() + 48.5];
+};
+var beers = {
+  features: [...Array(15).keys()].map((i) => {
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    return {
+      type: "Feature",
+      properties: {
+        type: "wine-" + color,
+        color: color,
+      },
+      geometry: {
+        type: "Point",
+        coordinates: randomCoordinate(),
+      },
+    };
+  }),
+};
+var wines = {
+  features: [...Array(15).keys()].map((i) => {
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    return {
+      type: "Feature",
+      properties: {
+        type: "beer-" + color,
+        color: color,
+      },
+      geometry: {
+        type: "Point",
+        coordinates: randomCoordinate(),
+      },
+    };
+  }),
+};
+
+var actualSelection = [];
+var beerLayer = false;
+var wineLayer = false;
+
+var redrawMap = function () {
+  beerLayer && beerLayer.clearLayers();
+  wineLayer && wineLayer.clearLayers();
+  beerLayer = L.geoJSON(beers, {
+    style: styleFeature,
+    pointToLayer: function (f, ll) {
+      return featureToLayer(f, ll, "🍺");
+    },
+    filter: filterFeatures,
+  }).addTo(map);
+  wineLayer = L.geoJSON(wines, {
+    style: styleFeature,
+    pointToLayer: function (f, ll) {
+      return featureToLayer(f, ll, "🍷");
+    },
+    filter: filterFeatures,
+  }).addTo(map);
+};
+
+var filterFeatures = function (f) {
+  return actualSelection.indexOf(f.properties.type) > -1;
+};
+
+var featureToLayer = function (f, ll, icon) {
+  return L.marker(ll, {
+    icon: L.divIcon({
+      className: "beer-wine-icon",
+      html:
+        '<div class="icon" style="background-color: ' +
+        f.properties.color +
+        ' ;font-size: 20px" >' +
+        icon +
+        "</div>",
+      iconSize: [20, 20],
+    }),
+  });
+};
+
+L.control
+  .select({
+    position: "topleft",
+    id: "image-selector",
+    selectedDefault: false,
+    items: items,
+    multi: true,
+    iconChecked: "☑",
+    iconUnchecked: "❒",
+    onSelect: function (selection) {
+      console.log(`selected ${selection}`);
+      actualSelection = selection;
+      redrawMap(selection);
+    },
+    onGroupOpen: function (groupOpened) {
+      console.log(`group openend ${groupOpened}`);
+    },
+  })
+  .addTo(map);
+          </code></pre>
+        </div>
+      </details>
+      <div class="map" id="map-multiple"></div>
+    </div>
+
+    <div class="container" id="icons-utf">
+      <h3>UTF-8 icons</h3>
+      <details>
+        <summary role="button">Code</summary>
+        <div>
+          <pre><code>
+var map = L.map("map-iconsutf", { maxZoom: 14 }).setView(
+  mapPosition,
+  mapZoom
+);
+tileLayer().addTo(map);
+
+const icons = ["☼", "🌤", "🌦", "🌨", "🌪"];
+
+const selectDiv = document.getElementById("map5-select");
+icons.forEach((icon) => {
+  const optionDiv = document.createElement("option");
+  optionDiv.value = icon;
+  optionDiv.innerHTML = icon;
+  selectDiv.appendChild(optionDiv);
+});
+selectDiv.onchange = (e) => {
+  reloadSelect(e.target.value);
+};
+
+let selectControl = false;
+const reloadSelect = (icon) => {
+  if (selectControl) {
+    selectControl.remove();
+  }
+  selectControl = L.control
+    .select({
+      position: "topleft",
+      iconMain: icon,
+      items: [
+        { value: "item1" },
+        { value: "item2" },
+        { value: "item3" },
+        { value: "item4" },
+        { value: "item5" },
+      ],
+    })
+    .addTo(map);
+};
+reloadSelect(icons[0]);
+          </code></pre>
+        </div>
+      </details>
+      <select id="map5-select"></select>
+      <div class="map" id="map-iconsutf"></div>
+    </div>
+
+    <div class="container" id="icons-fa">
+      <h3>Fontawesome icons</h3>
+      <details>
+        <summary role="button">Code</summary>
+        <div>
+          <pre><code>
+var map = L.map("map-iconsfa", { maxZoom: 14 }).setView(mapPosition, 5);
+tileLayer().addTo(map);
+
+let marker;
+let markers = [];
+const items = [
+  {
+    id: "bolt",
+    icon: "fa-bolt",
+    active: true,
+    places: [
+      [53, 13.425],
+      [53.63, 15.18],
+    ],
+  },
+  {
+    id: "wind",
+    icon: "fa-wind",
+    active: true,
+    places: [
+      [51.7, 14.2],
+      [53.6, 11.4],
+      [50.7, 11.8],
+      [49.7, 14.4],
+    ],
+  },
+  {
+    id: "cloud",
+    icon: "fa-cloud",
+    active: true,
+    places: [
+      [48.4, 11.6],
+      [49.4, 12],
+      [48.3, 13.2],
+      [48.5, 21.5],
+      [53.5, 17.1],
+    ],
+  },
+  {
+    id: "cloud-sun",
+    icon: "fa-cloud-sun",
+    active: true,
+    places: [
+      [50.2, 17.8],
+      [48.3, 16.6],
+      [48.5, 19.2],
+      [49.8, 22.1],
+      [51.9, 16.1],
+    ],
+  },
+  {
+    id: "sun",
+    icon: "fa-sun",
+    active: true,
+    places: [
+      [53.4, 20.1],
+      [51.9, 20.1],
+      [23.2, 22.6],
+    ],
+  },
+];
+
+<!-- L.control
+  .select({
+    position: "topleft",
+    selectedDefault: items.map((i) => i.id),
+    multi: true,
+    iconChecked: '<i class="fa fa-square" />',
+    iconUnchecked: '<i class="far fa-square" />',
+    iconMain: '<i class="fa fa-layer-group" />',
+    items: items.map((item) => {
+      return {
+        label: '<i class="fa ' + item.icon + '" /> ' + item.id,
+        value: item.id,
+      };
+    }),
+    onSelect: function (selectedItemValues) {
+      items.forEach((item) => {
+        item.active = selectedItemValues.includes(item.id);
+      });
+      redrawMarkers();
+    },
+  })
+  .addTo(map);
+redrawMarkers(); -->
+          </code></pre>
+        </div>
+      </details>
+      <div class="map" id="map-iconsfa"></div>
+    </div>
+  </body>
+</html>
