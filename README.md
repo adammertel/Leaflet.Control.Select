@@ -1,8 +1,5 @@
 # Leaflet.Control.Select
 
-[![Tests Status](https://github.com/adammertel/Leaflet.Control.Select/workflows/tests/badge.svg)](https://github.com/adammertel/Leaflet.Control.Select/actions)
-[![Storybook auto-build Status](https://github.com/adammertel/Leaflet.Control.Select/workflows/storybook-auto-build/badge.svg)](https://github.com/adammertel/Leaflet.Control.Select/actions)
-
 Plugin for [Leaflet](leaflet.com) library that adds a new control class.
 
 ## Motivation
@@ -24,7 +21,7 @@ See [storybook](https://adammertel.github.io/Leaflet.Control.Select) hosted on g
 - 1. a) get the npm package `npm i --save leaflet.control.select`
 - 1. b) download/clone/fork this repository and use dist folder (you can also build it (see `How to develop`))
 - 2. include the original leaflet js and css
-- 3. define `L.Control.Select` instance (see options or storybook documentation)
+- 3. define `L.Control.Select` instance (see options or [example page](https://adammertel.github.io/Leaflet.Control.Select/))
 
 ```js
 var map = L.map("map", { maxZoom: 14 }).setView([49, 18], 11);
@@ -50,8 +47,7 @@ L.control
 ## How to develop
 
 - `npm install` to get all modules needed for the development
-- `npm start` to open storybook environment, and set watchers for .js and .css files
-- `npm run build` to test and create the minified .js code
+- `npm run build` to create the minified .js code
 
 ## Options
 
@@ -169,10 +165,6 @@ nested items example:
 
 - closes the menu
 
-## TESTS
-
-- test are done with [jest](https://jestjs.io/) and [@storybook/addon-storyshots](https://www.npmjs.com/package/@storybook/addon-storyshots) (checking whether it is possible to render all stories from storybook)
-- run tests with `npm run test` or `npm run test-update` to update snapshots
 
 ## TODO
 
