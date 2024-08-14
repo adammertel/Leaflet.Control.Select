@@ -283,6 +283,7 @@ L.Control.Select = L.Control.extend({
     }
 
     L.DomEvent.addListener(pContent, "click", (e) => {
+      L.DomEvent.stop(e);
       this._itemClicked(item);
     });
 
