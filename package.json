@@ -28,7 +28,7 @@
     "minify": "babel --plugins=transform-remove-console,minify-mangle-names dist/leaflet.control.select.src.js --out-file dist/leaflet.control.select.js --minified",
     "onchange-js": "onchange src/**/*.js -- npm run build",
     "onchange-css": "onchange src/**/*.scss -- npm run sass",
-    "sass": "node-sass src/leaflet.control.select.scss > dist/leaflet.control.select.css",
+    "sass": "sass src/leaflet.control.select.scss > dist/leaflet.control.select.css",
     "build": "run-s sass babel minify banners"
   },
   "devDependencies": {
@@ -43,11 +43,11 @@
     "concat-cli": "^4.0.0",
     "identity-obj-proxy": "^3.0.0",
     "jshint": "^2.12.0",
-    "node-sass": "^7.0.1",
     "npm-run-all": "^4.1.5",
-    "onchange": "^7.0.2"
+    "onchange": "^7.0.2",
+    "sass": "^1.77.8"
   },
   "peerDependencies": {
-    "leaflet": "^1.8.0"
+    "leaflet": "^1.9.4"
   }
 }
