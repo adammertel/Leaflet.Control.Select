@@ -1,6 +1,6 @@
 {
   "name": "leaflet.control.select",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "target": "esnext",
   "module": "commonjs",
   "description": "Leaflet.js plugin to create select-ish control",
