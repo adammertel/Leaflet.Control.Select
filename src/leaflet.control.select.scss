@@ -23,12 +23,6 @@
     color: black;
 
     .leaflet-control-select-menu-line {
-      &.group {
-        &.group-opened {
-          background-color: grey;
-          color: white;
-        }
-      }
       padding: 7px;
       padding-right: 20px;
       padding-left: 10px;
@@ -38,7 +32,17 @@
       display: -webkit-box;
       width: auto;
 
+      &.group {
+        &.group-opened {
+          background-color: grey;
+          color: white;
+        }
+      }
+
       .leaflet-control-select-menu-line-content {
+        font-size: 1rem;
+        width: 100%;
+
         .icon {
           position: absolute;
           right: 6px;
@@ -51,8 +55,6 @@
         .text {
           display: inline;
         }
-        font-size: 1rem;
-        width: 100%;
       }
 
       span {
