@@ -22,18 +22,15 @@
     <!-- Leaflet -->
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.8.0/leaflet.min.css"
-      integrity="sha512-oIQ0EBio8LJupRpgmDsIsvm0Fsr6c3XNHLB7at5xb+Cf6eQuCX9xuX8XXGRIcokNgdqL1ms7nqbQ6ryXMGxXpg=="
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
+      integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw=="
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+      referrerpolicy="no-referrer" />
     <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.8.0/leaflet-src.js"
-      integrity="sha512-Uj3ED3j6dg1xxMgtj4kF4W60Tc1HGboQ5gweT+hG1z8sBIc0ncFuoh3qV5XZF8ZqlEGlV9mt9E6MZhLN3zFDJg=="
+      src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet-src.js"
+      integrity="sha512-x4B5AXtD8SqDqEpzOFXxCE0OOUhQ0Fep3Qka6WtUa3tw7z4fC7eOI4Vjm191HB63//4Y554Zxydbt2Hi8b+bVQ=="
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-
+      referrerpolicy="no-referrer"></script>
     <!-- Leaflet.Control.Select -->
     <link rel="stylesheet" href="./leaflet.control.select.css" />
     <script src="./leaflet.control.select.src.js"></script>
@@ -41,20 +38,17 @@
     <!-- Google Fonts -->
     <link\
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
-    />
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
 
     <!-- CSS Reset -->
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
-    />
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
 
     <!-- Milligram CSS -->
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
-    />
+      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
 
     <!-- Font Awesome CSS -->
     <link
@@ -62,8 +56,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
       integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
       crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+      referrerpolicy="no-referrer" />
 
     <!-- Example css -->
     <link rel="stylesheet" href="./demo.css" />
@@ -274,6 +267,8 @@
         const randomCoordinate = () => {
           return [Math.random() + 17.6, Math.random() + 48.5];
         };
+
+        console.log(randomCoordinate());
         var beers = {
           features: [...Array(15).keys()].map((i) => {
             const color = colors[Math.floor(Math.random() * colors.length)];
@@ -363,9 +358,9 @@
               actualSelection = selection;
               redrawMap(selection);
             },
-            onGroupOpen: function (groupOpened) {
-              console.log(`group openend ${groupOpened}`);
-            },
+            // onGroupOpen: function (groupOpened) {
+            //   console.log(`group openend ${groupOpened}`);
+            // },
           })
           .addTo(map);
       };
